@@ -1,4 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Initialize Telegram Mini App if opened inside Telegram
+    if (window.Telegram && window.Telegram.WebApp) {
+        window.Telegram.WebApp.ready();
+        window.Telegram.WebApp.expand();
+    }
     // Determine the manifest URL based on the current domain/path
     const manifestUrl = new URL('tonconnect-manifest.json', window.location.href).href;
 
@@ -24,6 +29,12 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const emptyState = document.getElementById('empty-state');
+    const heroConnectBtn = document.getElementById('hero-connect-btn');
+    if (heroConnectBtn) {
+        heroConnectBtn.addEventListener('click', () => {
+            tonConnectUI.openModal();
+        });
+    }
     const connectedStateContainer = document.getElementById('connected-state-container');
     const addressEl = document.getElementById('wallet-address');
     const balanceEl = document.getElementById('wallet-balance');
