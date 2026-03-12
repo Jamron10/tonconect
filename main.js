@@ -67,6 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let qrCodeObj = null;
 
     let currentAddressRaw = null;
+    let currentFriendlyAddress = null;
     let lastEventId = null;
     let pollInterval = null;
     let currentDisplayedBalance = 0;
@@ -96,10 +97,25 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    function toFriendlyAddress(raw, isTestnet = false) {
+        if (!raw) return '';
+        try {
+            if (window.TonWeb) {
+                const addr = new window.TonWeb.utils.Address(raw);
+                return addr.toString(true, true, false, isTestnet); // UQ Format (non-bounceable)
+            } else if (window.TON_CONNECT_UI && window.TON_CONNECT_UI.toUserFriendlyAddress) {
+                return window.TON_CONNECT_UI.toUserFriendlyAddress(raw, isTestnet);
+            }
+        } catch (e) {
+            console.warn('Address conversion error:', e);
+        }
+        return raw;
+    }
+
     function formatAddress(address) {
         if (!address) return '-';
-        if (address.length > 12) {
-            return `${address.slice(0, 6)}...${address.slice(-6)}`;
+        if (address.length > 10) {
+            return `${address.slice(0, 4)}...${address.slice(-4)}`;
         }
         return address;
     }
@@ -197,10 +213,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     btnReceive.addEventListener('click', () => {
-        if (!currentAddressRaw) return;
+        if (!currentFriendlyAddress) return;
         qrcodeContainer.innerHTML = '';
         qrCodeObj = new QRCode(qrcodeContainer, {
-            text: "ton://transfer/" + currentAddressRaw,
+            text: "ton://transfer/" + currentFriendlyAddress,
             width: 200,
             height: 200,
             colorDark : "#000000",
@@ -252,8 +268,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     copyBtn.addEventListener('click', () => {
-        if (currentAddressRaw) {
-            navigator.clipboard.writeText(currentAddressRaw)
+        if (currentFriendlyAddress) {
+            navigator.clipboard.writeText(currentFriendlyAddress)
                 .then(() => showToast())
                 .catch(err => console.error('Failed to copy', err));
         }
@@ -425,7 +441,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 const addrLabel = isIncoming ? (window.miniappI18n ? window.miniappI18n.t('app.from') : 'From') : (window.miniappI18n ? window.miniappI18n.t('app.to') : 'To');
                 const addrVal = isIncoming ? action.TonTransfer.sender?.address : action.TonTransfer.recipient?.address;
-                if(addrVal) secondaryText = `${addrLabel}: ${formatAddress(addrVal)}`;
+                if(addrVal) secondaryText = `${addrLabel}: ${formatAddress(toFriendlyAddress(addrVal))}`;
 
             } else if (action.type === 'JettonTransfer') {
                 const recipientHex = getHexPart(action.JettonTransfer.recipient?.address);
@@ -563,6 +579,8 @@ document.addEventListener('DOMContentLoaded', () => {
     tonConnectUI.onStatusChange(async (wallet) => {
         if (wallet && wallet.account) {
             currentAddressRaw = wallet.account.address;
+            const isTestnet = wallet.account.chain === '-3';
+            currentFriendlyAddress = toFriendlyAddress(currentAddressRaw, isTestnet);
             
             // Premium Entrance Animation
             anime({
@@ -589,8 +607,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             playConnectSound();
             
-            addressEl.textContent = formatAddress(currentAddressRaw);
-            addressEl.title = currentAddressRaw;
+            addressEl.textContent = formatAddress(currentFriendlyAddress);
+            addressEl.title = currentFriendlyAddress;
             
             balanceEl.textContent = '...';
 
@@ -602,6 +620,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             // Disconnected
             currentAddressRaw = null;
+            currentFriendlyAddress = null;
             lastEventId = null;
             currentDisplayedBalance = 0;
             if (pollInterval) clearInterval(pollInterval);
