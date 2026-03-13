@@ -36,6 +36,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     const connectedStateContainer = document.getElementById('connected-state-container');
+    const bottomNav = document.getElementById('bottom-nav');
+    const navBtns = document.querySelectorAll('.nav-btn');
+    const tabSections = document.querySelectorAll('[data-tab-section]');
+    
     const addressEl = document.getElementById('wallet-address');
     const balanceEl = document.getElementById('wallet-balance');
     const copyBtn = document.getElementById('copy-btn');
@@ -56,6 +60,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const tokensEmpty = document.getElementById('tokens-empty');
     const tokensList = document.getElementById('tokens-list');
 
+    const nftsLoading = document.getElementById('nfts-loading');
+    const nftsEmpty = document.getElementById('nfts-empty');
+    const nftsList = document.getElementById('nfts-list');
+
     // Modals elements
     const modalsOverlay = document.getElementById('modals-overlay');
     const modalReceive = document.getElementById('modal-receive');
@@ -64,6 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnSend = document.getElementById('btn-send');
     const sendConfirmBtn = document.getElementById('send-confirm-btn');
     const qrcodeContainer = document.getElementById('qrcode');
+    const receiveMemo = document.getElementById('receive-memo');
     let qrCodeObj = null;
 
     let currentAddressRaw = null;
@@ -71,6 +80,48 @@ document.addEventListener('DOMContentLoaded', () => {
     let lastEventId = null;
     let pollInterval = null;
     let currentDisplayedBalance = 0;
+
+    // --- Tab Navigation Logic ---
+    function switchTab(tabId) {
+        // Update nav buttons visually
+        navBtns.forEach(btn => {
+            if (btn.dataset.tab === tabId) {
+                btn.classList.add('text-cyan-400');
+                btn.classList.remove('text-slate-500');
+            } else {
+                btn.classList.remove('text-cyan-400');
+                btn.classList.add('text-slate-500');
+            }
+        });
+
+        // Update sections
+        tabSections.forEach(sec => {
+            if (sec.dataset.tabSection === tabId) {
+                sec.classList.remove('hidden');
+                sec.classList.add('flex', 'flex-col', 'gap-8');
+                // Small entrance animation when switching tabs
+                anime({
+                    targets: sec,
+                    opacity: [0, 1],
+                    translateY: [15, 0],
+                    duration: 400,
+                    easing: 'easeOutQuad'
+                });
+            } else {
+                sec.classList.add('hidden');
+                sec.classList.remove('flex', 'flex-col', 'gap-8');
+            }
+        });
+        
+        // Scroll to top
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    navBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            switchTab(btn.dataset.tab);
+        });
+    });
 
     // --- 3D Hover Effect for Main Card ---
     const walletCardSection = document.getElementById('wallet-info-section');
@@ -214,17 +265,44 @@ document.addEventListener('DOMContentLoaded', () => {
 
     btnReceive.addEventListener('click', () => {
         if (!currentFriendlyAddress) return;
-        qrcodeContainer.innerHTML = '';
-        qrCodeObj = new QRCode(qrcodeContainer, {
-            text: "ton://transfer/" + currentFriendlyAddress,
-            width: 200,
-            height: 200,
-            colorDark : "#000000",
-            colorLight : "#ffffff",
-            correctLevel : QRCode.CorrectLevel.M
-        });
+        receiveMemo.value = Math.random().toString(36).substring(2, 10).toUpperCase();
+        updateReceiveQR();
         openModal(modalReceive);
     });
+
+    function updateReceiveQR() {
+        if (!currentFriendlyAddress) return;
+        const text = receiveMemo.value.trim();
+        const standardLink = "ton://transfer/" + currentFriendlyAddress + (text ? "?text=" + encodeURIComponent(text) : "");
+        const tonkeeperLink = "https://app.tonkeeper.com/transfer/" + currentFriendlyAddress + (text ? "?text=" + encodeURIComponent(text) : "");
+        
+        qrcodeContainer.innerHTML = '';
+        qrCodeObj = new QRCode(qrcodeContainer, {
+            text: standardLink,
+            width: 200,
+            height: 200,
+            colorDark: "#000000",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.M
+        });
+
+        const btnOpenTonkeeper = document.getElementById('btn-open-tonkeeper');
+        if (btnOpenTonkeeper) {
+            btnOpenTonkeeper.href = tonkeeperLink;
+        }
+    }
+
+    receiveMemo.addEventListener('input', updateReceiveQR);
+
+    const btnOpenTonkeeperEl = document.getElementById('btn-open-tonkeeper');
+    if (btnOpenTonkeeperEl) {
+        btnOpenTonkeeperEl.addEventListener('click', (e) => {
+            if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.openLink) {
+                e.preventDefault();
+                window.Telegram.WebApp.openLink(btnOpenTonkeeperEl.href);
+            }
+        });
+    }
 
     btnSend.addEventListener('click', () => {
         document.getElementById('send-address').value = '';
@@ -237,7 +315,20 @@ document.addEventListener('DOMContentLoaded', () => {
         const amount = parseFloat(document.getElementById('send-amount').value);
         
         if(!address || isNaN(amount) || amount <= 0) return;
-        
+
+        let targetAddress = address;
+        try {
+            if (window.TonWeb) {
+                const addr = new window.TonWeb.utils.Address(address);
+                targetAddress = addr.toString(true, true, true);
+            }
+        } catch (e) {
+            const errorMsg = window.miniappI18n ? window.miniappI18n.t('app.tx_error') : 'Ошибка';
+            const invalidMsg = window.miniappI18n ? window.miniappI18n.t('app.invalid_address') : 'Неверный формат адреса';
+            showNotification(errorMsg, invalidMsg);
+            return;
+        }
+
         const sendBtnOriginalText = sendConfirmBtn.innerHTML;
         sendConfirmBtn.innerHTML = '<span class="w-6 h-6 rounded-full border-2 border-white/50 border-t-white animate-spin inline-block"></span>';
         sendConfirmBtn.disabled = true;
@@ -246,7 +337,7 @@ document.addEventListener('DOMContentLoaded', () => {
             validUntil: Math.floor(Date.now() / 1000) + 300,
             messages: [
                 {
-                    address: address,
+                    address: targetAddress,
                     amount: Math.floor(amount * 1e9).toString()
                 }
             ]
@@ -259,8 +350,13 @@ document.addEventListener('DOMContentLoaded', () => {
             closeModals();
         } catch (e) {
             console.error('Send error:', e);
-            const errorMsg = window.miniappI18n ? window.miniappI18n.t('app.tx_error') : 'Ошибка';
-            showNotification(errorMsg, e.message || '');
+            // Handle specific user rejection or timeout
+            const isCanceled = e.message && (e.message.toLowerCase().includes('not sent') || e.message.toLowerCase().includes('reject'));
+            const errorTitle = window.miniappI18n 
+                ? window.miniappI18n.t(isCanceled ? 'app.tx_canceled' : 'app.tx_error') 
+                : (isCanceled ? 'Отменено' : 'Ошибка');
+            
+            showNotification(errorTitle, isCanceled ? '' : (e.message || ''));
         } finally {
             sendConfirmBtn.innerHTML = sendBtnOriginalText;
             sendConfirmBtn.disabled = false;
@@ -339,6 +435,18 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    async function fetchNFTs(address) {
+        try {
+            const response = await fetch(`https://tonapi.io/v2/accounts/${address}/nfts?limit=20`);
+            if (!response.ok) return [];
+            const data = await response.json();
+            return data.nft_items || [];
+        } catch(e) {
+            console.error('Fetch NFTs error:', e);
+            return [];
+        }
+    }
+
     async function fetchHistoryEvents(address) {
         try {
             const response = await fetch(`https://tonapi.io/v2/accounts/${address}/events?limit=10`);
@@ -394,6 +502,64 @@ document.addEventListener('DOMContentLoaded', () => {
             targets: '.token-item',
             opacity: [0, 1],
             translateY: [20, 0],
+            delay: anime.stagger(100),
+            duration: 800,
+            easing: 'easeOutExpo'
+        });
+    }
+
+    function renderNFTs(nfts) {
+        nftsList.innerHTML = '';
+        nftsLoading.classList.add('hidden');
+        
+        if(!nfts || nfts.length === 0) {
+            nftsEmpty.classList.remove('hidden');
+            return;
+        }
+        nftsEmpty.classList.add('hidden');
+
+        nfts.forEach((nft) => {
+            const meta = nft.metadata || {};
+            const name = meta.name || 'Unknown NFT';
+            const image = meta.image || 'https://ton.org/download/ton_symbol.png';
+            const collection = nft.collection?.name || '';
+            
+            const imgUrl = image.replace('ipfs://', 'https://ipfs.io/ipfs/');
+            const nftAddressFriendly = toFriendlyAddress(nft.address);
+
+            const item = document.createElement('div');
+            item.className = 'nft-item bg-white/[0.04] rounded-2xl p-3 border border-white/5 flex flex-col hover:bg-white/[0.08] hover:border-purple-500/30 hover:shadow-[0_0_20px_rgba(168,85,247,0.15)] transition-all duration-300 group cursor-pointer relative';
+            item.style.opacity = '0';
+            
+            item.addEventListener('click', () => {
+                if (!nft.address) return;
+                const url = `https://tonviewer.com/${nftAddressFriendly}`;
+                if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.openLink) {
+                    window.Telegram.WebApp.openLink(url);
+                } else {
+                    window.open(url, '_blank', 'noopener,noreferrer');
+                }
+            });
+            
+            item.innerHTML = `
+                <div class="aspect-square w-full rounded-xl overflow-hidden mb-3 bg-black/40 relative">
+                    <div class="absolute top-2 right-2 bg-black/60 backdrop-blur-md rounded-lg p-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
+                        <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                    </div>
+                    <img src="${imgUrl}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="${name}" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMzMzMiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cmVjdCB4PSIzIiB5PSIzIiB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHJ4PSIyIiByeT0iMiI+PC9yZWN0PjxjaXJjbGUgY3g9IjguNSIgY3k9IjguNSIgcj0iMS41Ij48L2NpcmNsZT48cG9seWxpbmUgcG9pbnRzPSIyMSAxNSAxNiAxMCA1IDIxIj48L3BvbHlsaW5lPjwvc3ZnPg=='" loading="lazy" />
+                </div>
+                <div class="px-1 flex flex-col justify-center">
+                    <div class="font-bold text-white truncate text-sm sm:text-base tracking-wide" title="${name}">${name}</div>
+                    ${collection ? `<div class="text-slate-400 text-xs truncate mt-0.5" title="${collection}">${collection}</div>` : ''}
+                </div>
+            `;
+            nftsList.appendChild(item);
+        });
+
+        anime({
+            targets: '.nft-item',
+            opacity: [0, 1],
+            scale: [0.95, 1],
             delay: anime.stagger(100),
             duration: 800,
             easing: 'easeOutExpo'
@@ -519,16 +685,21 @@ document.addEventListener('DOMContentLoaded', () => {
             tokensLoading.classList.remove('hidden');
             tokensList.innerHTML = '';
             tokensEmpty.classList.add('hidden');
+
+            nftsLoading.classList.remove('hidden');
+            nftsList.innerHTML = '';
+            nftsEmpty.classList.add('hidden');
         } else {
             pollingIndicator.classList.remove('opacity-50');
             setTimeout(() => pollingIndicator.classList.add('opacity-50'), 500);
         }
 
         try {
-            const [balanceNum, events, jettons] = await Promise.all([
+            const [balanceNum, events, jettons, nfts] = await Promise.all([
                 fetchBalance(currentAddressRaw),
                 fetchHistoryEvents(currentAddressRaw),
-                fetchJettons(currentAddressRaw)
+                fetchJettons(currentAddressRaw),
+                fetchNFTs(currentAddressRaw)
             ]);
 
             // Animate balance counting
@@ -547,8 +718,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
 
-            // Update jettons
+            // Update jettons and NFTs
             renderJettons(jettons);
+            renderNFTs(nfts);
 
             // Update history
             if (isInitial) {
@@ -593,13 +765,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     emptyState.classList.add('hidden');
                     connectedStateContainer.classList.remove('hidden');
                     
-                    // Staggered entrance for main sections
+                    // Show Main tab initially
+                    switchTab('main');
+
+                    // Show bottom nav
+                    bottomNav.classList.remove('hidden');
                     anime({
-                        targets: '#connected-state-container > section',
+                        targets: bottomNav,
                         opacity: [0, 1],
-                        translateY: [40, 0],
-                        delay: anime.stagger(150),
-                        duration: 1000,
+                        translateY: [50, 0],
+                        duration: 600,
                         easing: 'easeOutExpo'
                     });
                 }
@@ -626,13 +801,14 @@ document.addEventListener('DOMContentLoaded', () => {
             if (pollInterval) clearInterval(pollInterval);
             
             anime({
-                targets: '#connected-state-container > section',
+                targets: [connectedStateContainer, bottomNav],
                 opacity: 0,
                 translateY: 20,
                 duration: 400,
                 easing: 'easeInQuad',
                 complete: () => {
                     connectedStateContainer.classList.add('hidden');
+                    bottomNav.classList.add('hidden');
                     emptyState.classList.remove('hidden');
                     
                     anime({
