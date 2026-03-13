@@ -1,7 +1,5 @@
 {
   "app": {
-    "title": "TON {
-  "app": {
     "title": "TON Баланс",
     "subtitle": "Панель управления",
     "empty_title": "Кошелек не подключен",
@@ -50,46 +48,9 @@
     "open_tonkeeper": "Перейти в Tonkeeper",
     "tab_main": "Главная",
     "tab_nfts": "NFT",
-    "tab_history": "История"
-  }
-}Баланс",
-    "subtitle": "Панель управления",
-    "empty_title": "Кошелек не подключен",
-    "empty_desc": "Для просмотра баланса и данных аккаунта подключите свой Tonkeeper или другой кошелек с помощью кнопки выше.",
-    "wallet_status": "Статус",
-    "connected": "Подключен",
-    "not_connected": "Не подключен",
-    "address": "Адрес кошелька",
-    "balance": "Доступный баланс",
-    "loading": "Загрузка...",
-    "error_fetching": "Ошибка загрузки",
-    "copied": "Скопировано!",
-    "history_title": "История операций",
-    "history_empty": "Транзакций пока нет",
-    "history_loading": "Загрузка истории...",
-    "receive": "Получение",
-    "send": "Отправление",
-    "new_transaction": "Новая транзакция!",
-    "balance_updated": "Ваш баланс обновлен",
-    "tx_unknown": "Транзакция",
-    "tokens_title": "Токены (Jettons)",
-    "tokens_empty": "У вас пока нет токенов",
-    "send_btn": "Отправить",
-    "receive_btn": "Получить",
-    "send_title": "Отправить TON",
-    "receive_title": "Получить TON",
-    "address_label": "Адрес получателя (UQ... / EQ...)",
-    "amount_label": "Сумма (TON)",
-    "cancel": "Отмена",
-    "confirm": "Подтвердить",
-    "tx_sent": "Транзакция отправлена!",
-    "tx_canceled": "Отменено",
-    "tx_error": "Ошибка при отправке",
-    "fee": "Комиссия",
-    "message": "Комментарий",
-    "from": "От",
-    "to": "Кому",
-    "close": "Закрыть",
-    "scan_qr": "Отсканируйте этот QR-код для перевода средств на ваш кошелек"
+    "tab_history": "История",
+    "nft_mint_btn": "Заминтить NFT номер карты",
+    "nft_market_btn": "Маркет карт на getgems.io/karta",
+    "nft_plastic_btn": "Выпустить пластиковый Teleport набор"
   }
 }
