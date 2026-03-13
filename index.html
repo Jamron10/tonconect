@@ -134,7 +134,24 @@
         <!-- ================= TAB: NFTs ================= -->
         <div data-tab-section="nfts" class="hidden w-full">
             <section class="w-full rounded-[2.5rem] border border-white/10 bg-white/[0.03] p-6 sm:p-10 shadow-[0_8px_32px_0_rgba(0,0,0,0.5)] backdrop-blur-2xl relative overflow-hidden">
-                <h3 class="text-2xl font-extrabold text-white tracking-tight mb-8" data-i18n="app.nfts_title">Мои NFT</h3>
+                <h3 class="text-2xl font-extrabold text-white tracking-tight mb-6" data-i18n="app.nfts_title">Мои NFT</h3>
+
+                <!-- NFT Actions -->
+                <div class="flex flex-col gap-3 mb-8">
+                    <a href="https://app.tonkeeper.com/transfer/anons.vipx.ton?amount=220000000&text=mint_number%F0%9F%8E%B1" target="_blank" rel="noopener noreferrer" class="twa-link w-full bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-400 hover:to-red-500 text-white py-4 px-5 rounded-2xl font-bold text-sm sm:text-base transition-all duration-300 shadow-[0_0_20px_rgba(249,115,22,0.2)] hover:shadow-[0_0_30px_rgba(249,115,22,0.4)] flex items-center gap-4 hover:-translate-y-1 active:scale-95">
+                        <span class="text-2xl shrink-0 drop-shadow-md">🔥</span>
+                        <span data-i18n="app.nft_mint_btn" class="text-left leading-tight">Заминтить NFT номер карты</span>
+                    </a>
+                    <a href="https://getgems.io/anons" target="_blank" rel="noopener noreferrer" class="twa-link w-full bg-[#1A1A24]/80 hover:bg-[#252532] text-white py-4 px-5 rounded-2xl font-bold text-sm sm:text-base transition-all duration-300 border border-white/10 hover:border-white/30 shadow-lg flex items-center gap-4 hover:-translate-y-1 active:scale-95">
+                        <span class="text-2xl shrink-0 drop-shadow-md">🎱</span>
+                        <span data-i18n="app.nft_market_btn" class="text-left leading-tight">Маркет карт на getgems.io/karta</span>
+                    </a>
+                    <a href="https://t.me/karta_robot" target="_blank" rel="noopener noreferrer" class="twa-link w-full bg-[#24A1DE]/10 hover:bg-[#24A1DE]/20 text-white py-4 px-5 rounded-2xl font-bold text-sm sm:text-base transition-all duration-300 border border-[#24A1DE]/30 hover:border-[#24A1DE]/50 shadow-lg flex items-center gap-4 hover:-translate-y-1 active:scale-95">
+                        <span class="text-2xl shrink-0 drop-shadow-md">💳</span>
+                        <span data-i18n="app.nft_plastic_btn" class="text-left leading-tight">Выпустить пластиковый Teleport набор</span>
+                    </a>
+                </div>
+
                 <div id="nfts-loading" class="flex justify-center py-8">
                     <span class="w-10 h-10 rounded-full border-4 border-purple-500/30 border-t-purple-400 animate-spin shadow-[0_0_15px_rgba(168,85,247,0.5)]"></span>
                 </div>
