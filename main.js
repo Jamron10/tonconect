@@ -304,6 +304,25 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Handle TWA native link opening for custom buttons
+    document.querySelectorAll('.twa-link').forEach(link => {
+        link.addEventListener('click', (e) => {
+            if (window.Telegram && window.Telegram.WebApp) {
+                e.preventDefault();
+                const url = link.href;
+                if (url.startsWith('https://t.me/')) {
+                    if (window.Telegram.WebApp.openTelegramLink) {
+                        window.Telegram.WebApp.openTelegramLink(url);
+                    } else if (window.Telegram.WebApp.openLink) {
+                        window.Telegram.WebApp.openLink(url);
+                    }
+                } else if (window.Telegram.WebApp.openLink) {
+                    window.Telegram.WebApp.openLink(url);
+                }
+            }
+        });
+    });
+
     btnSend.addEventListener('click', () => {
         document.getElementById('send-address').value = '';
         document.getElementById('send-amount').value = '';
