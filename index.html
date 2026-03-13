@@ -14,7 +14,7 @@
   <script src="https://unpkg.com/tonweb@0.0.66/dist/tonweb.js"></script>
   <link rel="stylesheet" href="styles.css">
 </head>
-<body class="min-h-screen bg-black text-slate-100 flex flex-col font-sans antialiased relative overflow-x-hidden pt-8 pb-24 selection:bg-cyan-500/30">
+<body class="min-h-screen bg-black text-slate-100 flex flex-col font-sans antialiased relative overflow-x-hidden pt-8 pb-32 selection:bg-cyan-500/30">
   
   <!-- Animated Background Orbs -->
   <div class="fixed inset-0 overflow-hidden pointer-events-none z-0 transform-gpu">
@@ -56,124 +56,178 @@
         </button>
     </main>
 
-    <!-- Connected State Container -->
-    <div id="connected-state-container" class="hidden flex-col gap-8 w-full">
-        <!-- Main Wallet Card -->
-        <section id="wallet-info-section" class="w-full rounded-[2.5rem] border border-white/10 bg-white/[0.03] p-6 sm:p-10 shadow-[0_8px_32px_0_rgba(0,0,0,0.5)] backdrop-blur-2xl relative overflow-hidden group">
-            <div class="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none"></div>
+    <!-- Connected State Container (holds the sections) -->
+    <div id="connected-state-container" class="hidden w-full relative">
+        
+        <!-- ================= TAB: MAIN ================= -->
+        <div data-tab-section="main" class="flex flex-col gap-8 w-full">
+            <!-- Main Wallet Card -->
+            <section id="wallet-info-section" class="w-full rounded-[2.5rem] border border-white/10 bg-white/[0.03] p-6 sm:p-10 shadow-[0_8px_32px_0_rgba(0,0,0,0.5)] backdrop-blur-2xl relative overflow-hidden group">
+                <div class="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none"></div>
 
-            <div id="wallet-info-card" class="flex flex-col space-y-8 relative z-10">
-                <div class="flex items-center justify-between pb-6 border-b border-white/5">
-                    <span class="text-slate-400 font-semibold tracking-wide uppercase text-sm" data-i18n="app.wallet_status">Статус</span>
-                    <div class="px-5 py-2 bg-green-500/10 border border-green-500/30 rounded-full flex items-center gap-2.5 shadow-[0_0_15px_rgba(34,197,94,0.15)]">
-                        <span class="w-2.5 h-2.5 rounded-full bg-green-400 animate-pulse shadow-[0_0_10px_rgba(74,222,128,1)]"></span>
-                        <span class="text-green-400 font-bold tracking-wide text-sm" data-i18n="app.connected">Подключен</span>
+                <div id="wallet-info-card" class="flex flex-col space-y-8 relative z-10">
+                    <div class="flex items-center justify-between pb-6 border-b border-white/5">
+                        <span class="text-slate-400 font-semibold tracking-wide uppercase text-sm" data-i18n="app.wallet_status">Статус</span>
+                        <div class="px-5 py-2 bg-green-500/10 border border-green-500/30 rounded-full flex items-center gap-2.5 shadow-[0_0_15px_rgba(34,197,94,0.15)]">
+                            <span class="w-2.5 h-2.5 rounded-full bg-green-400 animate-pulse shadow-[0_0_10px_rgba(74,222,128,1)]"></span>
+                            <span class="text-green-400 font-bold tracking-wide text-sm" data-i18n="app.connected">Подключен</span>
+                        </div>
                     </div>
-                </div>
 
-                <div class="space-y-3">
-                    <span class="text-slate-400 font-semibold tracking-wide uppercase text-sm block" data-i18n="app.address">Адрес кошелька</span>
-                    <div class="bg-black/40 rounded-2xl p-5 font-mono text-sm sm:text-base text-slate-300 border border-white/5 flex items-center justify-between transition-all duration-300 hover:bg-black/60 hover:border-white/20 hover:shadow-[0_0_20px_rgba(255,255,255,0.05)]">
-                        <span id="wallet-address" class="truncate mr-4 tracking-widest text-white/80">-</span>
-                        <button id="copy-btn" class="text-slate-500 hover:text-cyan-400 transition-all duration-300 p-2.5 -m-2 rounded-xl hover:bg-cyan-500/10 active:scale-95">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                    <div class="space-y-3">
+                        <span class="text-slate-400 font-semibold tracking-wide uppercase text-sm block" data-i18n="app.address">Адрес кошелька</span>
+                        <div class="bg-black/40 rounded-2xl p-5 font-mono text-sm sm:text-base text-slate-300 border border-white/5 flex items-center justify-between transition-all duration-300 hover:bg-black/60 hover:border-white/20 hover:shadow-[0_0_20px_rgba(255,255,255,0.05)]">
+                            <span id="wallet-address" class="truncate mr-4 tracking-widest text-white/80">-</span>
+                            <button id="copy-btn" class="text-slate-500 hover:text-cyan-400 transition-all duration-300 p-2.5 -m-2 rounded-xl hover:bg-cyan-500/10 active:scale-95">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4 pt-4">
+                        <span class="text-slate-400 font-semibold tracking-wide uppercase text-sm block" data-i18n="app.balance">Доступный баланс</span>
+                        <div class="bg-gradient-to-br from-cyan-600/10 via-blue-600/10 to-purple-600/10 rounded-[2rem] p-8 sm:p-10 border border-white/10 flex flex-col justify-end gap-3 shadow-[inset_0_0_40px_rgba(255,255,255,0.02)] relative overflow-hidden">
+                            <div class="absolute -right-10 -top-10 w-40 h-40 bg-cyan-500/20 rounded-full blur-3xl pointer-events-none"></div>
+                            
+                            <div class="flex items-baseline gap-3 z-10">
+                                <span id="wallet-balance" class="text-6xl sm:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-blue-400 to-purple-400 tracking-tighter drop-shadow-xl">-</span>
+                                <span class="text-cyan-400 text-xl font-bold flex items-center gap-1.5 uppercase tracking-widest">
+                                    <svg class="w-6 h-6 text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,0.8)]" viewBox="0 0 24 24" fill="currentColor"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM12 5.5L16.5 13H13.5V18.5L9 11H12V5.5Z"></path></svg>
+                                    TON
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="flex gap-4 pt-4">
+                        <button id="btn-receive" class="flex-1 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white py-4 rounded-2xl font-bold text-lg transition-all duration-300 shadow-[0_0_20px_rgba(6,182,212,0.3)] hover:shadow-[0_0_30px_rgba(6,182,212,0.5)] flex justify-center items-center gap-2 hover:-translate-y-1 active:scale-95">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M3 4h13M3 4v13m0-13l14 14"></path></svg>
+                            <span data-i18n="app.receive_btn">Получить</span>
+                        </button>
+                        <button id="btn-send" class="flex-1 bg-white/5 hover:bg-white/10 text-white py-4 rounded-2xl font-bold text-lg transition-all duration-300 border border-white/10 hover:border-white/30 shadow-lg flex justify-center items-center gap-2 hover:-translate-y-1 active:scale-95">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 4H8m13 0v13m0-13L7 18"></path></svg>
+                            <span data-i18n="app.send_btn">Отправить</span>
                         </button>
                     </div>
                 </div>
+            </section>
 
-                <div class="space-y-4 pt-4">
-                    <span class="text-slate-400 font-semibold tracking-wide uppercase text-sm block" data-i18n="app.balance">Доступный баланс</span>
-                    <div class="bg-gradient-to-br from-cyan-600/10 via-blue-600/10 to-purple-600/10 rounded-[2rem] p-8 sm:p-10 border border-white/10 flex flex-col justify-end gap-3 shadow-[inset_0_0_40px_rgba(255,255,255,0.02)] relative overflow-hidden">
-                        <div class="absolute -right-10 -top-10 w-40 h-40 bg-cyan-500/20 rounded-full blur-3xl pointer-events-none"></div>
-                        
-                        <div class="flex items-baseline gap-3 z-10">
-                            <span id="wallet-balance" class="text-6xl sm:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-blue-400 to-purple-400 tracking-tighter drop-shadow-xl">-</span>
-                            <span class="text-cyan-400 text-xl font-bold flex items-center gap-1.5 uppercase tracking-widest">
-                                <svg class="w-6 h-6 text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,0.8)]" viewBox="0 0 24 24" fill="currentColor"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM12 5.5L16.5 13H13.5V18.5L9 11H12V5.5Z"></path></svg>
-                                TON
-                            </span>
-                        </div>
+            <!-- Jettons (Tokens) Section -->
+            <section class="w-full rounded-[2.5rem] border border-white/10 bg-white/[0.03] p-6 sm:p-10 shadow-[0_8px_32px_0_rgba(0,0,0,0.5)] backdrop-blur-2xl relative overflow-hidden">
+                <h3 class="text-2xl font-extrabold text-white tracking-tight mb-8" data-i18n="app.tokens_title">Токены (Jettons)</h3>
+                <div id="tokens-loading" class="flex justify-center py-8">
+                    <span class="w-10 h-10 rounded-full border-4 border-cyan-500/30 border-t-cyan-400 animate-spin shadow-[0_0_15px_rgba(34,211,238,0.5)]"></span>
+                </div>
+                <div id="tokens-empty" class="hidden flex flex-col items-center justify-center py-10 text-slate-500">
+                    <div class="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center mb-4 border border-white/10">
+                        <svg class="w-8 h-8 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 12V8H6a2 2 0 01-2-2c0-1.1.9-2 2-2h12v4"></path></svg>
+                    </div>
+                    <span class="text-lg font-medium" data-i18n="app.tokens_empty">У вас пока нет токенов</span>
+                </div>
+                <div id="tokens-list" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <!-- Tokens will be injected here -->
+                </div>
+            </section>
+        </div>
+
+        <!-- ================= TAB: NFTs ================= -->
+        <div data-tab-section="nfts" class="hidden w-full">
+            <section class="w-full rounded-[2.5rem] border border-white/10 bg-white/[0.03] p-6 sm:p-10 shadow-[0_8px_32px_0_rgba(0,0,0,0.5)] backdrop-blur-2xl relative overflow-hidden">
+                <h3 class="text-2xl font-extrabold text-white tracking-tight mb-8" data-i18n="app.nfts_title">Мои NFT</h3>
+                <div id="nfts-loading" class="flex justify-center py-8">
+                    <span class="w-10 h-10 rounded-full border-4 border-purple-500/30 border-t-purple-400 animate-spin shadow-[0_0_15px_rgba(168,85,247,0.5)]"></span>
+                </div>
+                <div id="nfts-empty" class="hidden flex flex-col items-center justify-center py-10 text-slate-500">
+                    <div class="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center mb-4 border border-white/10">
+                        <svg class="w-8 h-8 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                    </div>
+                    <span class="text-lg font-medium" data-i18n="app.nfts_empty">У вас пока нет NFT</span>
+                </div>
+                <div id="nfts-list" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                    <!-- NFTs will be injected here -->
+                </div>
+            </section>
+        </div>
+
+        <!-- ================= TAB: HISTORY ================= -->
+        <div data-tab-section="history" class="hidden w-full">
+            <!-- History Card -->
+            <section class="w-full rounded-[2.5rem] border border-white/10 bg-white/[0.03] p-6 sm:p-10 shadow-[0_8px_32px_0_rgba(0,0,0,0.5)] backdrop-blur-2xl relative overflow-hidden">
+                <div class="flex items-center justify-between mb-8 pb-6 border-b border-white/5">
+                    <h3 class="text-2xl font-extrabold text-white tracking-tight" data-i18n="app.history_title">История операций</h3>
+                    <div class="flex items-center gap-3 bg-black/30 rounded-full px-4 py-2 border border-white/5">
+                        <span id="polling-indicator" class="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_10px_rgba(34,211,238,0.8)]" title="Авто-обновление активно"></span>
+                        <div class="w-px h-4 bg-white/10"></div>
+                        <button id="refresh-history-btn" class="text-slate-400 hover:text-cyan-400 transition-colors p-1 rounded-full hover:bg-white/10" title="Обновить">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Loading state -->
+                <div id="history-loading" class="flex justify-center py-10">
+                    <div class="flex flex-col items-center gap-4">
+                        <span class="w-10 h-10 rounded-full border-4 border-purple-500/30 border-t-purple-400 animate-spin shadow-[0_0_15px_rgba(168,85,247,0.5)]"></span>
+                        <span class="text-slate-400 text-sm font-medium tracking-wide uppercase" data-i18n="app.history_loading">Загрузка истории...</span>
                     </div>
                 </div>
 
-                <!-- Action Buttons -->
-                <div class="flex gap-4 pt-4">
-                    <button id="btn-receive" class="flex-1 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white py-4 rounded-2xl font-bold text-lg transition-all duration-300 shadow-[0_0_20px_rgba(6,182,212,0.3)] hover:shadow-[0_0_30px_rgba(6,182,212,0.5)] flex justify-center items-center gap-2 hover:-translate-y-1 active:scale-95">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M3 4h13M3 4v13m0-13l14 14"></path></svg>
-                        <span data-i18n="app.receive_btn">Получить</span>
-                    </button>
-                    <button id="btn-send" class="flex-1 bg-white/5 hover:bg-white/10 text-white py-4 rounded-2xl font-bold text-lg transition-all duration-300 border border-white/10 hover:border-white/30 shadow-lg flex justify-center items-center gap-2 hover:-translate-y-1 active:scale-95">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 4H8m13 0v13m0-13L7 18"></path></svg>
-                        <span data-i18n="app.send_btn">Отправить</span>
-                    </button>
+                <!-- Empty state -->
+                <div id="history-empty" class="hidden flex flex-col items-center justify-center py-10">
+                    <div class="w-20 h-20 rounded-full bg-black/40 mb-5 flex items-center justify-center shadow-inner border border-white/5">
+                        <svg class="w-10 h-10 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    </div>
+                    <span class="text-slate-400 text-lg font-medium" data-i18n="app.history_empty">Транзакций пока нет</span>
                 </div>
-            </div>
-        </section>
 
-        <!-- Jettons (Tokens) Section -->
-        <section class="w-full rounded-[2.5rem] border border-white/10 bg-white/[0.03] p-6 sm:p-10 shadow-[0_8px_32px_0_rgba(0,0,0,0.5)] backdrop-blur-2xl relative overflow-hidden">
-            <h3 class="text-2xl font-extrabold text-white tracking-tight mb-8" data-i18n="app.tokens_title">Токены (Jettons)</h3>
-            <div id="tokens-loading" class="flex justify-center py-8">
-                <span class="w-10 h-10 rounded-full border-4 border-cyan-500/30 border-t-cyan-400 animate-spin shadow-[0_0_15px_rgba(34,211,238,0.5)]"></span>
-            </div>
-            <div id="tokens-empty" class="hidden flex flex-col items-center justify-center py-10 text-slate-500">
-                <div class="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center mb-4 border border-white/10">
-                    <svg class="w-8 h-8 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 12V8H6a2 2 0 01-2-2c0-1.1.9-2 2-2h12v4"></path></svg>
+                <!-- List -->
+                <div id="history-list" class="flex flex-col gap-4">
+                    <!-- Transactions will be injected here -->
                 </div>
-                <span class="text-lg font-medium" data-i18n="app.tokens_empty">У вас пока нет токенов</span>
-            </div>
-            <div id="tokens-list" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <!-- Tokens will be injected here -->
-            </div>
-        </section>
+            </section>
+        </div>
 
-        <!-- History Card -->
-        <section class="w-full rounded-[2.5rem] border border-white/10 bg-white/[0.03] p-6 sm:p-10 shadow-[0_8px_32px_0_rgba(0,0,0,0.5)] backdrop-blur-2xl relative overflow-hidden">
-            <div class="flex items-center justify-between mb-8 pb-6 border-b border-white/5">
-                <h3 class="text-2xl font-extrabold text-white tracking-tight" data-i18n="app.history_title">История операций</h3>
-                <div class="flex items-center gap-3 bg-black/30 rounded-full px-4 py-2 border border-white/5">
-                    <span id="polling-indicator" class="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_10px_rgba(34,211,238,0.8)]" title="Авто-обновление активно"></span>
-                    <div class="w-px h-4 bg-white/10"></div>
-                    <button id="refresh-history-btn" class="text-slate-400 hover:text-cyan-400 transition-colors p-1 rounded-full hover:bg-white/10" title="Обновить">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
-                    </button>
-                </div>
-            </div>
-            
-            <!-- Loading state -->
-            <div id="history-loading" class="flex justify-center py-10">
-                <div class="flex flex-col items-center gap-4">
-                    <span class="w-10 h-10 rounded-full border-4 border-purple-500/30 border-t-purple-400 animate-spin shadow-[0_0_15px_rgba(168,85,247,0.5)]"></span>
-                    <span class="text-slate-400 text-sm font-medium tracking-wide uppercase" data-i18n="app.history_loading">Загрузка истории...</span>
-                </div>
-            </div>
-
-            <!-- Empty state -->
-            <div id="history-empty" class="hidden flex flex-col items-center justify-center py-10">
-                <div class="w-20 h-20 rounded-full bg-black/40 mb-5 flex items-center justify-center shadow-inner border border-white/5">
-                    <svg class="w-10 h-10 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                </div>
-                <span class="text-slate-400 text-lg font-medium" data-i18n="app.history_empty">Транзакций пока нет</span>
-            </div>
-
-            <!-- List -->
-            <div id="history-list" class="flex flex-col gap-4">
-                <!-- Transactions will be injected here -->
-            </div>
-        </section>
     </div>
+
+    <!-- Bottom Navigation Bar -->
+    <nav id="bottom-nav" class="fixed bottom-0 left-0 right-0 bg-black/80 backdrop-blur-2xl border-t border-white/10 z-40 hidden pb-safe shadow-[0_-10px_30px_rgba(0,0,0,0.5)]">
+        <div class="max-w-2xl mx-auto px-6 py-3 flex justify-around items-center">
+            <button class="nav-btn flex flex-col items-center gap-1.5 text-cyan-400 w-16 transition-transform active:scale-95" data-tab="main">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                <span class="text-[10px] font-bold tracking-wider uppercase" data-i18n="app.tab_main">Главная</span>
+            </button>
+            <button class="nav-btn flex flex-col items-center gap-1.5 text-slate-500 hover:text-cyan-400 w-16 transition-colors active:scale-95" data-tab="nfts">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
+                <span class="text-[10px] font-bold tracking-wider uppercase" data-i18n="app.tab_nfts">NFT</span>
+            </button>
+            <button class="nav-btn flex flex-col items-center gap-1.5 text-slate-500 hover:text-cyan-400 w-16 transition-colors active:scale-95" data-tab="history">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <span class="text-[10px] font-bold tracking-wider uppercase" data-i18n="app.tab_history">История</span>
+            </button>
+        </div>
+    </nav>
 
     <!-- Modals Overlay -->
     <div id="modals-overlay" class="fixed inset-0 bg-black/80 backdrop-blur-lg z-50 hidden opacity-0 flex items-center justify-center p-4">
         
         <!-- Receive Modal -->
-        <div id="modal-receive" class="hidden bg-slate-900 border border-white/20 rounded-[2.5rem] p-8 w-full max-w-sm shadow-[0_0_50px_rgba(0,0,0,0.8)] scale-95 opacity-0 flex flex-col items-center relative overflow-hidden">
+        <div id="modal-receive" class="hidden bg-slate-900 border border-white/20 rounded-[2.5rem] p-8 w-full max-w-sm shadow-[0_0_50px_rgba(0,0,0,0.8)] scale-95 opacity-0 flex flex-col relative overflow-hidden">
             <div class="absolute -top-32 -right-32 w-64 h-64 bg-cyan-500/20 rounded-full blur-[80px] pointer-events-none"></div>
-            <h3 class="text-2xl font-extrabold text-white mb-3 z-10 tracking-tight" data-i18n="app.receive_title">Получить TON</h3>
-            <p class="text-cyan-100/60 text-sm mb-8 text-center z-10 leading-relaxed" data-i18n="app.scan_qr">Отсканируйте этот QR-код для перевода средств на ваш кошелек</p>
-            <div class="bg-white p-5 rounded-[2rem] mb-10 z-10 shadow-[0_0_30px_rgba(255,255,255,0.1)] transform transition-transform duration-500 hover:scale-105">
+            <h3 class="text-2xl font-extrabold text-white mb-3 z-10 tracking-tight text-center" data-i18n="app.receive_title">Получить TON</h3>
+            <p class="text-cyan-100/60 text-sm mb-6 text-center z-10 leading-relaxed" data-i18n="app.scan_qr">Отсканируйте этот QR-код</p>
+            
+            <div class="w-full z-10 mb-6">
+                <label class="block text-slate-400 text-xs mb-2 font-semibold uppercase tracking-wider" data-i18n="app.receive_memo_label">Комментарий (Memo)</label>
+                <input type="text" id="receive-memo" class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-cyan-500 transition-all shadow-inner placeholder-white/20 text-sm" data-i18n-placeholder="app.receive_memo_placeholder" placeholder="Необязательно (например: за кофе)">
+            </div>
+            <div class="bg-white p-4 rounded-[2rem] mb-8 z-10 shadow-[0_0_30px_rgba(255,255,255,0.1)] transform transition-transform duration-500 hover:scale-105 self-center">
                 <div id="qrcode"></div>
             </div>
+            <a id="btn-open-tonkeeper" href="#" target="_blank" rel="noopener noreferrer" class="w-full bg-blue-500 hover:bg-blue-600 text-white py-4 rounded-2xl font-bold transition-all shadow-[0_0_20px_rgba(59,130,246,0.3)] hover:shadow-[0_0_30px_rgba(59,130,246,0.5)] z-10 flex justify-center items-center gap-2 mb-3 active:scale-95">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM12 5.5L16.5 13H13.5V18.5L9 11H12V5.5Z"></path></svg>
+                <span data-i18n="app.open_tonkeeper">Перейти в Tonkeeper</span>
+            </a>
             <button class="modal-close w-full bg-white/5 hover:bg-white/10 text-white py-4 rounded-2xl font-bold transition-all border border-white/10 hover:border-white/30 z-10" data-i18n="app.close">Закрыть</button>
         </div>
 
@@ -202,7 +256,7 @@
     </div>
 
     <!-- Copy Toast -->
-    <div id="toast" class="fixed bottom-8 left-1/2 -translate-x-1/2 bg-white/10 backdrop-blur-xl border border-white/20 text-white px-8 py-4 rounded-full text-sm font-bold shadow-[0_10px_40px_rgba(0,0,0,0.5)] opacity-0 pointer-events-none z-50 flex items-center gap-3 transform translate-y-4">
+    <div id="toast" class="fixed bottom-24 left-1/2 -translate-x-1/2 bg-white/10 backdrop-blur-xl border border-white/20 text-white px-8 py-4 rounded-full text-sm font-bold shadow-[0_10px_40px_rgba(0,0,0,0.5)] opacity-0 pointer-events-none z-50 flex items-center gap-3 transform translate-y-4">
         <div class="w-8 h-8 rounded-full bg-green-500/20 flex items-center justify-center">
             <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
         </div>
