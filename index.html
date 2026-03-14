@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>TON Dashboard</title>
+  <title>TON VIP Teleport</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
   <!-- Library for QR Code Generation -->
@@ -32,8 +32,8 @@
                 <svg class="w-8 h-8 text-white drop-shadow-md" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
             </div>
             <div>
-                <h1 class="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white to-slate-400 tracking-tight" data-i18n="app.title">TON Баланс</h1>
-                <p class="text-sm text-cyan-400 font-medium tracking-wide uppercase" data-i18n="app.subtitle">Панель управления</p>
+                <h1 class="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white to-slate-400 tracking-tight" data-i18n="app.title">🎱 TON VIP</h1>
+                <p class="text-sm text-cyan-400 font-medium tracking-wide uppercase" data-i18n="app.subtitle">Teleport terminal</p>
             </div>
         </div>
         
@@ -84,7 +84,7 @@
                         </div>
                     </div>
 
-                    <div class="space-y-4 pt-4">
+                    <div class="space-y-4 pt-4 pb-2">
                         <span class="text-slate-400 font-semibold tracking-wide uppercase text-sm block" data-i18n="app.balance">Доступный баланс</span>
                         <div class="bg-gradient-to-br from-cyan-600/10 via-blue-600/10 to-purple-600/10 rounded-[2rem] p-8 sm:p-10 border border-white/10 flex flex-col justify-end gap-3 shadow-[inset_0_0_40px_rgba(255,255,255,0.02)] relative overflow-hidden">
                             <div class="absolute -right-10 -top-10 w-40 h-40 bg-cyan-500/20 rounded-full blur-3xl pointer-events-none"></div>
@@ -95,21 +95,31 @@
                                     <svg class="w-6 h-6 text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,0.8)]" viewBox="0 0 24 24" fill="currentColor"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM12 5.5L16.5 13H13.5V18.5L9 11H12V5.5Z"></path></svg>
                                     TON
                                 </span>
-                            </div>
+                            </div>                            <div id="fiat-balance" class="z-10 mt-1 flex items-center gap-2"></div>
                         </div>
                     </div>
 
                     <!-- Action Buttons -->
-                    <div class="flex gap-4 pt-4">
-                        <button id="btn-receive" class="flex-1 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white py-4 rounded-2xl font-bold text-lg transition-all duration-300 shadow-[0_0_20px_rgba(6,182,212,0.3)] hover:shadow-[0_0_30px_rgba(6,182,212,0.5)] flex justify-center items-center gap-2 hover:-translate-y-1 active:scale-95">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M3 4h13M3 4v13m0-13l14 14"></path></svg>
-                            <span data-i18n="app.receive_btn">Получить</span>
+                    <div class="flex gap-2 sm:gap-3 pt-4">
+                        <button id="btn-receive" class="flex-1 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white py-3 rounded-2xl font-bold text-xs sm:text-sm md:text-base transition-all duration-300 shadow-[0_0_20px_rgba(6,182,212,0.3)] hover:shadow-[0_0_30px_rgba(6,182,212,0.5)] flex flex-col sm:flex-row justify-center items-center gap-1.5 hover:-translate-y-1 active:scale-95">
+                            <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m0 0l-6-6m6 6l6-6"></path></svg>
+                            <span data-i18n="app.receive_btn">Пополнить</span>
                         </button>
-                        <button id="btn-send" class="flex-1 bg-white/5 hover:bg-white/10 text-white py-4 rounded-2xl font-bold text-lg transition-all duration-300 border border-white/10 hover:border-white/30 shadow-lg flex justify-center items-center gap-2 hover:-translate-y-1 active:scale-95">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 4H8m13 0v13m0-13L7 18"></path></svg>
+                        <button id="btn-qr-rub" class="flex-1 bg-white/5 hover:bg-white/10 text-white py-3 rounded-2xl font-bold text-xs sm:text-sm md:text-base transition-all duration-300 border border-white/10 hover:border-white/30 shadow-lg flex flex-col sm:flex-row justify-center items-center gap-1.5 hover:-translate-y-1 active:scale-95">
+                            <svg class="w-5 h-5 sm:w-6 sm:h-6 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h2v2h-2zM18 14h2v2h-2zM14 18h2v2h-2zM18 18h2v2h-2z"></path></svg>
+                            <span data-i18n="app.qr_rub_btn" class="whitespace-nowrap sm:whitespace-normal">[ - ] QR в РУБ</span>
+                        </button>
+                        <button id="btn-send" class="flex-1 bg-white/5 hover:bg-white/10 text-white py-3 rounded-2xl font-bold text-xs sm:text-sm md:text-base transition-all duration-300 border border-white/10 hover:border-white/30 shadow-lg flex flex-col sm:flex-row justify-center items-center gap-1.5 hover:-translate-y-1 active:scale-95">
+                            <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 20V4m0 0l-6 6m6-6l6 6"></path></svg>
                             <span data-i18n="app.send_btn">Отправить</span>
                         </button>
                     </div>
+                    
+                    <!-- Telegram Stars Button -->
+                    <button id="btn-stars-rub" class="w-full mt-3 bg-[#2AABEE]/10 hover:bg-[#2AABEE]/20 text-[#2AABEE] hover:text-white py-3.5 px-4 rounded-2xl font-bold text-sm sm:text-base transition-all duration-300 border border-[#2AABEE]/30 hover:border-[#2AABEE]/50 shadow-[0_0_15px_rgba(42,171,238,0.1)] hover:shadow-[0_0_20px_rgba(42,171,238,0.2)] flex justify-center items-center gap-2 hover:-translate-y-1 active:scale-95">
+                        <span class="text-xl drop-shadow-md">⭐</span>
+                        <span data-i18n="app.stars_rub_btn">Вывести или оплатить Telegram звёздами как за RUB</span>
+                    </button>
                 </div>
             </section>
 
@@ -138,7 +148,7 @@
 
                 <!-- NFT Actions -->
                 <div class="flex flex-col gap-3 mb-8">
-                    <a href="https://app.tonkeeper.com/transfer/anons.vipx.ton?amount=220000000&text=mint_number%F0%9F%8E%B1" target="_blank" rel="noopener noreferrer" class="twa-link w-full bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-400 hover:to-red-500 text-white py-4 px-5 rounded-2xl font-bold text-sm sm:text-base transition-all duration-300 shadow-[0_0_20px_rgba(249,115,22,0.2)] hover:shadow-[0_0_30px_rgba(249,115,22,0.4)] flex items-center gap-4 hover:-translate-y-1 active:scale-95">
+                    <a href="https://app.tonkeeper.com/transfer/anons.vipx.ton?amount=2220000000&text=mint_number%F0%9F%8E%B1" target="_blank" rel="noopener noreferrer" class="twa-link w-full bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-400 hover:to-red-500 text-white py-4 px-5 rounded-2xl font-bold text-sm sm:text-base transition-all duration-300 shadow-[0_0_20px_rgba(249,115,22,0.2)] hover:shadow-[0_0_30px_rgba(249,115,22,0.4)] flex items-center gap-4 hover:-translate-y-1 active:scale-95">
                         <span class="text-2xl shrink-0 drop-shadow-md">🔥</span>
                         <span data-i18n="app.nft_mint_btn" class="text-left leading-tight">Заминтить NFT номер карты</span>
                     </a>
@@ -249,26 +259,32 @@
         </div>
 
         <!-- Send Modal -->
-        <div id="modal-send" class="hidden bg-slate-900 border border-white/20 rounded-[2.5rem] p-8 w-full max-w-md shadow-[0_0_50px_rgba(0,0,0,0.8)] scale-95 opacity-0 flex flex-col relative overflow-hidden">
+        <div id="modal-send" class="hidden bg-slate-900 border border-white/20 rounded-[2.5rem] p-6 w-full max-w-sm shadow-[0_0_50px_rgba(0,0,0,0.8)] scale-95 opacity-0 flex flex-col relative overflow-hidden max-h-[85vh]">
             <div class="absolute -top-32 -right-32 w-64 h-64 bg-blue-500/20 rounded-full blur-[80px] pointer-events-none"></div>
-            <h3 class="text-2xl font-extrabold text-white mb-8 z-10 tracking-tight" data-i18n="app.send_title">Отправить TON</h3>
             
-            <div class="space-y-6 mb-10 z-10">
-                <div>
-                    <label class="block text-slate-400 text-sm mb-3 font-semibold uppercase tracking-wide" data-i18n="app.address_label">Адрес получателя</label>
-                    <input type="text" id="send-address" class="w-full bg-black/50 border border-white/10 rounded-2xl px-5 py-4 text-white focus:outline-none focus:border-cyan-500 transition-all font-mono text-sm shadow-inner placeholder-white/20" placeholder="UQ...">
-                </div>
-                <div>
-                    <label class="block text-slate-400 text-sm mb-3 font-semibold uppercase tracking-wide" data-i18n="app.amount_label">Сумма (TON)</label>
-                    <input type="number" id="send-amount" class="w-full bg-black/50 border border-white/10 rounded-2xl px-5 py-4 text-white focus:outline-none focus:border-cyan-500 transition-all shadow-inner placeholder-white/20 text-lg" placeholder="0.00" step="0.01" min="0">
-                </div>
+            <div class="flex justify-between items-center mb-6 z-10 shrink-0">
+                <h3 class="text-2xl font-extrabold text-white tracking-tight" data-i18n="app.send_title">Отправить</h3>
+                <button class="modal-close text-slate-400 hover:text-white bg-white/5 rounded-full p-2 transition-colors">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
             </div>
             
-            <div class="flex gap-4 z-10">
-                <button class="modal-close flex-1 bg-white/5 hover:bg-white/10 text-white py-4 rounded-2xl font-bold transition-all border border-white/10 hover:border-white/30" data-i18n="app.cancel">Отмена</button>
-                <button id="send-confirm-btn" class="flex-1 bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white py-4 rounded-2xl font-bold transition-all shadow-[0_0_20px_rgba(6,182,212,0.4)] hover:shadow-[0_0_30px_rgba(6,182,212,0.6)]" data-i18n="app.confirm">Подтвердить</button>
+            <div class="flex flex-col gap-2.5 overflow-y-auto pr-1 custom-scrollbar z-10 pb-2">
+                <button class="send-opt-btn bg-white/5 hover:bg-white/10 text-white py-3.5 px-4 rounded-2xl font-semibold text-sm sm:text-base transition-all border border-white/10 hover:border-white/30 flex items-center justify-start text-left" data-i18n="app.send_opt_user">🔗 Перевести пользователю</button>
+                <button class="send-opt-btn bg-white/5 hover:bg-white/10 text-white py-3.5 px-4 rounded-2xl font-semibold text-sm sm:text-base transition-all border border-white/10 hover:border-white/30 flex items-center justify-start text-left" data-i18n="app.send_opt_addr">📤 По адресу кошелька/TON QR</button>
+                <button class="send-opt-btn bg-white/5 hover:bg-white/10 text-white py-3.5 px-4 rounded-2xl font-semibold text-sm sm:text-base transition-all border border-white/10 hover:border-white/30 flex items-center justify-start text-left" data-i18n="app.send_opt_vip">🎱 По VIP Name/Donats</button>
+                <button class="send-opt-btn bg-white/5 hover:bg-white/10 text-white py-3.5 px-4 rounded-2xl font-semibold text-sm sm:text-base transition-all border border-white/10 hover:border-white/30 flex items-center justify-start text-left" data-i18n="app.send_opt_stars">⭐ В Telegram звëзды</button>
+                <button class="send-opt-btn bg-white/5 hover:bg-white/10 text-white py-3.5 px-4 rounded-2xl font-semibold text-sm sm:text-base transition-all border border-white/10 hover:border-white/30 flex items-center justify-start text-left" data-i18n="app.send_opt_efir">🎙 Баланс стримов Efir.vip</button>
+                <button class="send-opt-btn bg-white/5 hover:bg-white/10 text-white py-3.5 px-4 rounded-2xl font-semibold text-sm sm:text-base transition-all border border-white/10 hover:border-white/30 flex items-center justify-start text-left" data-i18n="app.send_opt_altyn">🌐 На Алтын карту МИР</button>
+                <button class="send-opt-btn bg-white/5 hover:bg-white/10 text-white py-3.5 px-4 rounded-2xl font-semibold text-sm sm:text-base transition-all border border-white/10 hover:border-white/30 flex items-center justify-start text-left" data-i18n="app.send_opt_antarctic">🐧 На Antarctic Wallet</button>
+                <button class="send-opt-btn bg-white/5 hover:bg-white/10 text-white py-3.5 px-4 rounded-2xl font-semibold text-sm sm:text-base transition-all border border-white/10 hover:border-white/30 flex items-center justify-start text-left" data-i18n="app.send_opt_myton">💎 На MyTonWallet</button>
+                <button class="send-opt-btn bg-white/5 hover:bg-white/10 text-white py-3.5 px-4 rounded-2xl font-semibold text-sm sm:text-base transition-all border border-white/10 hover:border-white/30 flex items-center justify-start text-left" data-i18n="app.send_opt_sbp">💳 По номеру СБП/карта</button>
+                <button class="send-opt-btn bg-white/5 hover:bg-white/10 text-white py-3.5 px-4 rounded-2xl font-semibold text-sm sm:text-base transition-all border border-white/10 hover:border-white/30 flex items-center justify-start text-left" data-i18n="app.send_opt_crypto">🦋 Crypto Bot | 🚀 xRocket</button>
+                <button class="send-opt-btn bg-white/5 hover:bg-white/10 text-white py-3.5 px-4 rounded-2xl font-semibold text-sm sm:text-base transition-all border border-white/10 hover:border-white/30 flex items-center justify-start text-left" data-i18n="app.send_opt_other">🪙 Другим способом</button>
             </div>
-        </div>
+            
+            <button class="modal-close w-full bg-white/5 hover:bg-white/10 text-white py-4 mt-2 rounded-2xl font-bold transition-all border border-white/10 hover:border-white/30 z-10 shrink-0" data-i18n="app.close">Закрыть</button>
+        </div></div>
 
     </div>
 
