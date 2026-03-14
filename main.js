@@ -42,6 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     const addressEl = document.getElementById('wallet-address');
     const balanceEl = document.getElementById('wallet-balance');
+    const fiatBalanceEl = document.getElementById('fiat-balance');
     const copyBtn = document.getElementById('copy-btn');
     const toast = document.getElementById('toast');
     
@@ -70,7 +71,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalSend = document.getElementById('modal-send');
     const btnReceive = document.getElementById('btn-receive');
     const btnSend = document.getElementById('btn-send');
-    const sendConfirmBtn = document.getElementById('send-confirm-btn');
+    const btnQrRub = document.getElementById('btn-qr-rub');
+    const btnStarsRub = document.getElementById('btn-stars-rub');
     const qrcodeContainer = document.getElementById('qrcode');
     const receiveMemo = document.getElementById('receive-memo');
     let qrCodeObj = null;
@@ -80,6 +82,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let lastEventId = null;
     let pollInterval = null;
     let currentDisplayedBalance = 0;
+    let currentTonPriceRub = 0;
+    let currentTonPriceUsd = 0;
 
     // --- Tab Navigation Logic ---
     function switchTab(tabId) {
@@ -324,62 +328,30 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     btnSend.addEventListener('click', () => {
-        document.getElementById('send-address').value = '';
-        document.getElementById('send-amount').value = '';
         openModal(modalSend);
     });
 
-    sendConfirmBtn.addEventListener('click', async () => {
-        const address = document.getElementById('send-address').value.trim();
-        const amount = parseFloat(document.getElementById('send-amount').value);
-        
-        if(!address || isNaN(amount) || amount <= 0) return;
+    if (btnQrRub) {
+        btnQrRub.addEventListener('click', () => {
+            const soonMsg = window.miniappI18n ? window.miniappI18n.t('app.soon') : 'В разработке';
+            const btnText = window.miniappI18n ? window.miniappI18n.t('app.qr_rub_btn') : '[ - ] QR в РУБ';
+            showNotification(soonMsg, btnText);
+        });
+    }
 
-        let targetAddress = address;
-        try {
-            if (window.TonWeb) {
-                const addr = new window.TonWeb.utils.Address(address);
-                targetAddress = addr.toString(true, true, true);
-            }
-        } catch (e) {
-            const errorMsg = window.miniappI18n ? window.miniappI18n.t('app.tx_error') : 'Ошибка';
-            const invalidMsg = window.miniappI18n ? window.miniappI18n.t('app.invalid_address') : 'Неверный формат адреса';
-            showNotification(errorMsg, invalidMsg);
-            return;
-        }
+    if (btnStarsRub) {
+        btnStarsRub.addEventListener('click', () => {
+            const soonMsg = window.miniappI18n ? window.miniappI18n.t('app.soon') : 'В разработке';
+            showNotification(soonMsg, 'Telegram Stars');
+        });
+    }
 
-        const sendBtnOriginalText = sendConfirmBtn.innerHTML;
-        sendConfirmBtn.innerHTML = '<span class="w-6 h-6 rounded-full border-2 border-white/50 border-t-white animate-spin inline-block"></span>';
-        sendConfirmBtn.disabled = true;
-
-        const transaction = {
-            validUntil: Math.floor(Date.now() / 1000) + 300,
-            messages: [
-                {
-                    address: targetAddress,
-                    amount: Math.floor(amount * 1e9).toString()
-                }
-            ]
-        };
-
-        try {
-            await tonConnectUI.sendTransaction(transaction);
-            const successMsg = window.miniappI18n ? window.miniappI18n.t('app.tx_sent') : 'Транзакция отправлена!';
-            showNotification(successMsg, '');
+    document.querySelectorAll('.send-opt-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const soonMsg = window.miniappI18n ? window.miniappI18n.t('app.soon') : 'В разработке';
+            showNotification(soonMsg, btn.textContent.trim());
             closeModals();
-        } catch (e) {
-            console.error('Send error:', e);
-            // Handle specific user rejection or timeout
-            const isCanceled = e.message && (e.message.toLowerCase().includes('not sent') || e.message.toLowerCase().includes('reject'));
-            const errorTitle = window.miniappI18n 
-                ? window.miniappI18n.t(isCanceled ? 'app.tx_canceled' : 'app.tx_error') 
-                : (isCanceled ? 'Отменено' : 'Ошибка');
-            
-            showNotification(errorTitle, isCanceled ? '' : (e.message || ''));
-        } finally {
-            sendConfirmBtn.innerHTML = sendBtnOriginalText;
-            sendConfirmBtn.disabled = false;
-        }
+        });
     });
 
     copyBtn.addEventListener('click', () => {
@@ -440,6 +412,33 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (e) {
             console.error('Fetch balance error:', e);
             return 0;
+        }
+    }
+
+    async function fetchTonRates() {
+        try {
+            const response = await fetch('https://tonapi.io/v2/rates?tokens=ton&currencies=usd,rub');
+            if (!response.ok) return;
+            const data = await response.json();
+            if (data && data.rates && data.rates.TON && data.rates.TON.prices) {
+                currentTonPriceRub = data.rates.TON.prices.RUB;
+                currentTonPriceUsd = data.rates.TON.prices.USD;
+            }
+        } catch(e) {
+            console.error('Fetch rates error:', e);
+        }
+    }
+
+    function updateFiatDisplay(val) {
+        if (!fiatBalanceEl) return;
+        if (currentTonPriceRub > 0 && currentTonPriceUsd > 0) {
+            const rubRate = currentTonPriceRub * 1.02; // +2% markup logic
+            const rubValue = val * rubRate;
+            const usdValue = val * currentTonPriceUsd;
+            
+            fiatBalanceEl.innerHTML = `<span class="text-white/90 drop-shadow-md font-semibold text-xl">≈ ${rubValue.toLocaleString('ru-RU', {minimumFractionDigits: 2, maximumFractionDigits: 2})} RUB</span> <span class="text-cyan-200/70 text-base font-medium tracking-wide">(~${usdValue.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})} $)</span>`;
+        } else {
+            fiatBalanceEl.innerHTML = '';
         }
     }
 
@@ -714,6 +713,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         try {
+            if (isInitial || currentTonPriceRub === 0) {
+                await fetchTonRates();
+            }
+
             const [balanceNum, events, jettons, nfts] = await Promise.all([
                 fetchBalance(currentAddressRaw),
                 fetchHistoryEvents(currentAddressRaw),
@@ -730,10 +733,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 easing: 'easeOutExpo',
                 update: function() {
                     balanceEl.textContent = balanceObj.value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                    updateFiatDisplay(balanceObj.value);
                 },
                 complete: function() {
                     balanceEl.textContent = balanceNum.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
                     currentDisplayedBalance = balanceNum;
+                    updateFiatDisplay(balanceNum);
                 }
             });
 
@@ -817,6 +822,7 @@ document.addEventListener('DOMContentLoaded', () => {
             currentFriendlyAddress = null;
             lastEventId = null;
             currentDisplayedBalance = 0;
+            if (fiatBalanceEl) fiatBalanceEl.innerHTML = '';
             if (pollInterval) clearInterval(pollInterval);
             
             anime({
