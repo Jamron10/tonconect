@@ -1,7 +1,7 @@
 {
   "app": {
-    "title": "TON Баланс",
-    "subtitle": "Панель управления",
+    "title": "🎱 TON VIP",
+    "subtitle": "Teleport terminal",
     "empty_title": "Кошелек не подключен",
     "empty_desc": "Для просмотра баланса и данных аккаунта подключите свой кошелек.",
     "connect_btn": "Подключить кошелек",
@@ -24,9 +24,9 @@
     "tokens_title": "Токены (Jettons)",
     "tokens_empty": "У вас пока нет токенов",
     "send_btn": "Отправить",
-    "receive_btn": "Получить",
-    "send_title": "Отправить TON",
-    "receive_title": "Получить TON",
+    "receive_btn": "Пополнить",
+    "send_title": "Отправить",
+    "receive_title": "Пополнить",
     "address_label": "Адрес получателя (UQ... / EQ...)",
     "amount_label": "Сумма (TON)",
     "cancel": "Отмена",
@@ -51,6 +51,20 @@
     "tab_history": "История",
     "nft_mint_btn": "Заминтить NFT номер карты",
     "nft_market_btn": "Маркет карт на getgems.io/karta",
-    "nft_plastic_btn": "Выпустить пластиковый Teleport набор"
+    "nft_plastic_btn": "Выпустить пластиковый Teleport набор",
+    "send_opt_user": "🔗 Перевести пользователю",
+    "send_opt_addr": "📤 По адресу кошелька/TON QR",
+    "send_opt_vip": "🎱 По VIP Name/Donats",
+    "send_opt_stars": "⭐ В Telegram звëзды",
+    "send_opt_efir": "🎙 Баланс стримов Efir.vip",
+    "send_opt_altyn": "🌐 На Алтын карту МИР",
+    "send_opt_antarctic": "🐧 На Antarctic Wallet",
+    "send_opt_myton": "💎 На MyTonWallet",
+    "send_opt_sbp": "💳 По номеру СБП/карта",
+    "send_opt_crypto": "🦋 Crypto Bot | 🚀 xRocket",
+    "send_opt_other": "🪙 Другим способом",
+    "soon": "В разработке",
+    "qr_rub_btn": "[ - ] QR в РУБ",
+    "stars_rub_btn": "Вывести или оплатить Telegram звёздами как за RUB"
   }
 }
