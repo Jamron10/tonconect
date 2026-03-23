@@ -1,4 +1,55 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {    // --- Splash Screen Logic ---
+    const splashScreen = document.getElementById('splash-screen');
+    const appContainer = document.getElementById('app');
+    
+    if (splashScreen && appContainer) {
+        // Hide app container initially
+        appContainer.style.opacity = '0';
+        appContainer.style.transform = 'translateY(20px)';
+
+        anime.timeline({
+            complete: () => {
+                splashScreen.classList.add('hidden');
+                // Reveal main app
+                anime({
+                    targets: appContainer,
+                    opacity: [0, 1],
+                    translateY: [20, 0],
+                    duration: 800,
+                    easing: 'easeOutExpo'
+                });
+            }
+        })
+        .add({
+            targets: '#splash-icon',
+            scale: [0, 1],
+            opacity: [0, 1],
+            rotateZ: [45, 0],
+            duration: 1200,
+            easing: 'easeOutElastic(1, .5)'
+        })
+        .add({
+            targets: '#splash-title',
+            opacity: [0, 1],
+            translateY: [20, 0],
+            duration: 800,
+            easing: 'easeOutExpo'
+        }, '-=800')
+        .add({
+            targets: '#splash-loading-container',
+            opacity: [0, 1],
+            duration: 400,
+            easing: 'linear'
+        }, '-=400')
+        .add({
+            targets: splashScreen,
+            opacity: [1, 0],
+            duration: 600,
+            delay: 1500, // Show splash screen for 1.5 seconds after loading
+            easing: 'easeInOutQuad'
+        });
+    }
+
     // Initialize Telegram Mini App if opened inside Telegram
     if (window.Telegram && window.Telegram.WebApp) {
         window.Telegram.WebApp.ready();
@@ -67,6 +118,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Modals elements
     const modalsOverlay = document.getElementById('modals-overlay');
+    const modalProfile = document.getElementById('modal-profile');
+    const profileBtn = document.getElementById('profile-btn');
+    const modalBeta = document.getElementById('modal-beta');
+    const modalQrRub = document.getElementById('modal-qr-rub');
+    const betaBadgeBtn = document.getElementById('beta-badge-btn');
     const modalReceive = document.getElementById('modal-receive');
     const modalSend = document.getElementById('modal-send');
     const btnReceive = document.getElementById('btn-receive');
@@ -84,6 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentDisplayedBalance = 0;
     let currentTonPriceRub = 0;
     let currentTonPriceUsd = 0;
+    let globalTgPhotoUrl = null;
 
     // --- Tab Navigation Logic ---
     function switchTab(tabId) {
@@ -244,7 +301,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function closeModals() {
         anime.timeline()
             .add({
-                targets: [modalReceive, modalSend],
+                targets: [modalReceive, modalSend, modalProfile, modalBeta, modalQrRub],
                 scale: [1, 0.95],
                 opacity: [1, 0],
                 duration: 300,
@@ -259,12 +316,76 @@ document.addEventListener('DOMContentLoaded', () => {
                     modalsOverlay.classList.add('hidden');
                     modalReceive.classList.add('hidden');
                     modalSend.classList.add('hidden');
+                    if (modalProfile) modalProfile.classList.add('hidden');
+                    if (modalBeta) modalBeta.classList.add('hidden');
+                    if (modalQrRub) modalQrRub.classList.add('hidden');
                 }
             }, '-=150');
     }
 
     document.querySelectorAll('.modal-close').forEach(btn => {
         btn.addEventListener('click', closeModals);
+    });
+
+    if (profileBtn) {
+        profileBtn.addEventListener('click', () => {
+            openModal(modalProfile);
+        });
+    }
+
+    if (betaBadgeBtn) {
+        betaBadgeBtn.addEventListener('click', () => {
+            openModal(modalBeta);
+        });
+    }
+
+    function trySetAvatar(url) {
+        if(!url) return;
+        const topImg = document.getElementById('profile-avatar-img');
+        const topFallback = document.getElementById('profile-avatar-fallback');
+        const modalImg = document.getElementById('modal-profile-img');
+        const modalFallback = document.getElementById('modal-profile-fallback');
+        
+        if(topImg) {
+            topImg.src = url;
+            topImg.classList.remove('hidden');
+            if(topFallback) topFallback.classList.add('hidden');
+        }
+        if(modalImg) {
+            modalImg.src = url;
+            modalImg.classList.remove('hidden');
+            if(modalFallback) modalFallback.classList.add('hidden');
+        }
+    }
+
+    function initProfile() {
+        if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user) {
+            const tgUser = window.Telegram.WebApp.initDataUnsafe.user;
+            if (tgUser.photo_url) globalTgPhotoUrl = tgUser.photo_url;
+            
+            const nameStr = [tgUser.first_name, tgUser.last_name].filter(Boolean).join(' ') || 'Телепорт Юзер';
+            const nameEl = document.getElementById('modal-profile-name');
+            if (nameEl) nameEl.textContent = nameStr;
+            
+            if (tgUser.username) {
+                const usernameEl = document.getElementById('modal-profile-username');
+                if (usernameEl) {
+                    usernameEl.textContent = '@' + tgUser.username;
+                    usernameEl.classList.remove('hidden');
+                }
+            }
+            
+            if (globalTgPhotoUrl) trySetAvatar(globalTgPhotoUrl);
+        }
+    }
+
+    initProfile();
+
+    document.querySelectorAll('.profile-setting-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const soonMsg = window.miniappI18n ? window.miniappI18n.t('app.soon') : 'В разработке';
+            showNotification(soonMsg, btn.querySelector('span:last-child')?.textContent || 'Настройка');
+        });
     });
 
     btnReceive.addEventListener('click', () => {
@@ -333,9 +454,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (btnQrRub) {
         btnQrRub.addEventListener('click', () => {
-            const soonMsg = window.miniappI18n ? window.miniappI18n.t('app.soon') : 'В разработке';
-            const btnText = window.miniappI18n ? window.miniappI18n.t('app.qr_rub_btn') : '[ - ] QR в РУБ';
-            showNotification(soonMsg, btnText);
+            if (modalQrRub) openModal(modalQrRub);
         });
     }
 
@@ -363,6 +482,67 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Audio Context (Premium Success Sound)
+    // Audio Context (Coin Drop Sound for Incoming)
+    function playCoinDropSound() {
+        try {
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            if (!AudioContext) return;
+            const ctx = new AudioContext();
+            if (ctx.state === 'suspended') ctx.resume();
+
+            function ping(freq, time, decay) {
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(freq, time);
+                osc.frequency.exponentialRampToValueAtTime(freq * 0.95, time + decay);
+
+                gain.gain.setValueAtTime(0, time);
+                gain.gain.linearRampToValueAtTime(0.5, time + 0.01);
+                gain.gain.exponentialRampToValueAtTime(0.001, time + decay);
+
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start(time);
+                osc.stop(time + decay);
+            }
+
+            const t = ctx.currentTime;
+            ping(2000, t, 0.4);
+            ping(2800, t, 0.5);
+            ping(2000, t + 0.12, 0.2);
+            ping(2800, t + 0.12, 0.25);
+            ping(2000, t + 0.22, 0.1);
+        } catch(e) {}
+    }
+
+    // Audio Context (Swoosh Sound for Outgoing)
+    function playSendSound() {
+        try {
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            if (!AudioContext) return;
+            const ctx = new AudioContext();
+            if (ctx.state === 'suspended') ctx.resume();
+
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = 'sine';
+            
+            const t = ctx.currentTime;
+            osc.frequency.setValueAtTime(400, t);
+            osc.frequency.exponentialRampToValueAtTime(50, t + 0.4);
+
+            gain.gain.setValueAtTime(0, t);
+            gain.gain.linearRampToValueAtTime(0.4, t + 0.05);
+            gain.gain.exponentialRampToValueAtTime(0.001, t + 0.4);
+
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(t);
+            osc.stop(t + 0.4);
+        } catch(e) {}
+    }
+
     function playConnectSound() {
         try {
             const AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -399,6 +579,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    let apiErrorShown = false;
+    function handleNetworkError(e, context) {
+        console.warn(`[Network] ${context} error: ${e.message}`);
+        if (!apiErrorShown && e.name === 'TypeError' && e.message.includes('Failed to fetch')) {
+            showNotification('Ошибка сети', 'Сбой подключения к TON API. Выключите VPN или AdBlock.');
+            apiErrorShown = true;
+            setTimeout(() => { apiErrorShown = false; }, 60000); // 1 min cooldown
+        }
+    }
+
     async function fetchBalance(address) {
         try {
             const response = await fetch(`https://tonapi.io/v2/accounts/${address}`);
@@ -410,8 +600,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             return 0;
         } catch (e) {
-            console.error('Fetch balance error:', e);
-            return 0;
+            handleNetworkError(e, 'Balance');
+            return null;
         }
     }
 
@@ -425,18 +615,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 currentTonPriceUsd = data.rates.TON.prices.USD;
             }
         } catch(e) {
-            console.error('Fetch rates error:', e);
+            handleNetworkError(e, 'Rates');
         }
     }
 
     function updateFiatDisplay(val) {
         if (!fiatBalanceEl) return;
         if (currentTonPriceRub > 0 && currentTonPriceUsd > 0) {
-            const rubRate = currentTonPriceRub * 1.02; // +2% markup logic
+            const rubRate = currentTonPriceRub * 0.95; // -5% margin logic to cover fees
             const rubValue = val * rubRate;
             const usdValue = val * currentTonPriceUsd;
             
-            fiatBalanceEl.innerHTML = `<span class="text-white/90 drop-shadow-md font-semibold text-xl">≈ ${rubValue.toLocaleString('ru-RU', {minimumFractionDigits: 2, maximumFractionDigits: 2})} RUB</span> <span class="text-cyan-200/70 text-base font-medium tracking-wide">(~${usdValue.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})} $)</span>`;
+            fiatBalanceEl.innerHTML = `<span class="text-white/90 drop-shadow-md font-semibold text-xl">≈ ${rubValue.toLocaleString('ru-RU', {minimumFractionDigits: 3, maximumFractionDigits: 3})} RUB</span> <span class="text-cyan-200/70 text-base font-medium tracking-wide">(~${usdValue.toLocaleString('en-US', {minimumFractionDigits: 3, maximumFractionDigits: 3})} $)</span>`;
         } else {
             fiatBalanceEl.innerHTML = '';
         }
@@ -449,6 +639,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = await response.json();
             return data.balances || [];
         } catch(e) {
+            handleNetworkError(e, 'Jettons');
             return [];
         }
     }
@@ -460,7 +651,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = await response.json();
             return data.nft_items || [];
         } catch(e) {
-            console.error('Fetch NFTs error:', e);
+            handleNetworkError(e, 'NFTs');
             return [];
         }
     }
@@ -472,7 +663,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = await response.json();
             return data.events || [];
         } catch (e) {
-            console.error('Fetch history error:', e);
+            handleNetworkError(e, 'History');
             return [];
         }
     }
@@ -499,7 +690,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const decimals = meta.decimals || 9;
             const balance = Number(j.balance) / (10 ** decimals);
             const symbol = meta.symbol || 'Unknown';
-            const image = meta.image || 'https://ton.org/download/ton_symbol.png'; 
+            const image = meta.image || 'https://i.yapx.ru/dOAJJ.jpg'; 
             
             const item = document.createElement('div');
             item.className = 'token-item bg-white/[0.04] rounded-2xl p-4 sm:p-5 border border-white/5 flex items-center justify-between hover:bg-white/[0.08] hover:border-cyan-500/30 hover:shadow-[0_0_20px_rgba(34,211,238,0.1)] transition-all duration-300 group cursor-default';
@@ -539,7 +730,7 @@ document.addEventListener('DOMContentLoaded', () => {
         nfts.forEach((nft) => {
             const meta = nft.metadata || {};
             const name = meta.name || 'Unknown NFT';
-            const image = meta.image || 'https://ton.org/download/ton_symbol.png';
+            const image = meta.image || 'https://i.yapx.ru/dOAJJ.jpg';
             const collection = nft.collection?.name || '';
             
             const imgUrl = image.replace('ipfs://', 'https://ipfs.io/ipfs/');
@@ -597,8 +788,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const myHex = getHexPart(currentAddressRaw);
 
         events.forEach(event => {
-            const action = event.actions.find(a => a.type === 'TonTransfer' || a.type === 'JettonTransfer') || event.actions[0];
-            
             let isIncoming = true;
             let amountText = '';
             let title = window.miniappI18n ? window.miniappI18n.t('app.tx_unknown') : 'Транзакция';
@@ -606,35 +795,58 @@ document.addEventListener('DOMContentLoaded', () => {
             let feeText = '';
             let secondaryText = '';
             
+            let action = event.actions.find(a => a.type === 'TonTransfer' || a.type === 'JettonTransfer' || a.type === 'NftItemTransfer');
+            if (!action && event.actions.length > 0) action = event.actions[0];
+            
             if (event.fee > 0) {
                 const feeVal = event.fee / 1e9;
-                feeText = `${window.miniappI18n ? window.miniappI18n.t('app.fee') : 'Fee'}: ${feeVal.toLocaleString('en-US', {maximumFractionDigits:4})} TON`;
+                feeText = `${window.miniappI18n ? window.miniappI18n.t('app.fee') : 'Комиссия'}: ${feeVal.toLocaleString('en-US', {maximumFractionDigits:4})} TON`;
             }
 
-            if (action.type === 'TonTransfer') {
+            if (action && action.type === 'TonTransfer' && action.TonTransfer) {
                 const amount = action.TonTransfer.amount / 1e9;
                 const recipientHex = getHexPart(action.TonTransfer.recipient?.address);
-                isIncoming = (recipientHex === myHex);
+                const senderHex = getHexPart(action.TonTransfer.sender?.address);
                 
+                isIncoming = (recipientHex === myHex);
+                if (senderHex === myHex && recipientHex === myHex) isIncoming = true;
+
                 title = isIncoming 
                     ? (window.miniappI18n ? window.miniappI18n.t('app.receive') : 'Получение') 
                     : (window.miniappI18n ? window.miniappI18n.t('app.send') : 'Отправление');
                     
-                amountText = `${isIncoming ? '+' : '-'}${amount.toLocaleString('en-US', {maximumFractionDigits:2})} TON`;
+                amountText = `${isIncoming ? '+' : '-'}${amount.toLocaleString('en-US', {minimumFractionDigits: 3, maximumFractionDigits: 3})} TON`;
                 comment = action.TonTransfer.comment || '';
                 
-                const addrLabel = isIncoming ? (window.miniappI18n ? window.miniappI18n.t('app.from') : 'From') : (window.miniappI18n ? window.miniappI18n.t('app.to') : 'To');
+                const addrLabel = isIncoming ? (window.miniappI18n ? window.miniappI18n.t('app.from') : 'От') : (window.miniappI18n ? window.miniappI18n.t('app.to') : 'Кому');
                 const addrVal = isIncoming ? action.TonTransfer.sender?.address : action.TonTransfer.recipient?.address;
                 if(addrVal) secondaryText = `${addrLabel}: ${formatAddress(toFriendlyAddress(addrVal))}`;
 
-            } else if (action.type === 'JettonTransfer') {
+            } else if (action && action.type === 'JettonTransfer' && action.JettonTransfer) {
+                const jettonMeta = action.JettonTransfer.jetton;
+                const decimals = jettonMeta?.decimals || 9;
+                const symbol = jettonMeta?.symbol || 'Jetton';
+                const parsedAmount = action.JettonTransfer.amount / (10 ** decimals);
+
                 const recipientHex = getHexPart(action.JettonTransfer.recipient?.address);
                 isIncoming = (recipientHex === myHex);
-                title = 'Jetton Transfer';
-                amountText = isIncoming ? '+ Jetton' : '- Jetton';
+                title = isIncoming ? `Получен ${symbol}` : `Отправлен ${symbol}`;
+                amountText = `${isIncoming ? '+' : '-'}${parsedAmount.toLocaleString('en-US', {minimumFractionDigits: 3, maximumFractionDigits: 3})} ${symbol}`;
                 comment = action.JettonTransfer.comment || '';
+                
+            } else if (action && action.type === 'NftItemTransfer' && action.NftItemTransfer) {
+                const recipientHex = getHexPart(action.NftItemTransfer.recipient?.address);
+                isIncoming = (recipientHex === myHex);
+                title = 'NFT Перевод';
+                amountText = isIncoming ? '+ 1 NFT' : '- 1 NFT';
+            } else if (action && action.type === 'SmartContractExec') {
+                title = 'Смарт-контракт';
+                isIncoming = false;
+                amountText = '';
             } else {
-                title = action.type;
+                title = action ? action.type : (window.miniappI18n ? window.miniappI18n.t('app.tx_unknown') : 'Неизвестно');
+                isIncoming = true;
+                amountText = '';
             }
             
             const date = new Date(event.timestamp * 1000);
@@ -715,14 +927,17 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             if (isInitial || currentTonPriceRub === 0) {
                 await fetchTonRates();
+                await new Promise(r => setTimeout(r, 600));
             }
 
-            const [balanceNum, events, jettons, nfts] = await Promise.all([
-                fetchBalance(currentAddressRaw),
-                fetchHistoryEvents(currentAddressRaw),
-                fetchJettons(currentAddressRaw),
-                fetchNFTs(currentAddressRaw)
-            ]);
+            const balanceNum = await fetchBalance(currentAddressRaw);
+            if (balanceNum === null) return; // Предотвращаем сброс баланса в 0 при ошибке 429
+            await new Promise(r => setTimeout(r, 600));
+            const events = await fetchHistoryEvents(currentAddressRaw);
+            await new Promise(r => setTimeout(r, 600));
+            const jettons = await fetchJettons(currentAddressRaw);
+            await new Promise(r => setTimeout(r, 600));
+            const nfts = await fetchNFTs(currentAddressRaw);
 
             // Animate balance counting
             const balanceObj = { value: currentDisplayedBalance };
@@ -732,11 +947,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 duration: 2000,
                 easing: 'easeOutExpo',
                 update: function() {
-                    balanceEl.textContent = balanceObj.value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                    balanceEl.textContent = balanceObj.value.toLocaleString('en-US', { minimumFractionDigits: 3, maximumFractionDigits: 3 });
                     updateFiatDisplay(balanceObj.value);
                 },
                 complete: function() {
-                    balanceEl.textContent = balanceNum.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                    balanceEl.textContent = balanceNum.toLocaleString('en-US', { minimumFractionDigits: 3, maximumFractionDigits: 3 });
                     currentDisplayedBalance = balanceNum;
                     updateFiatDisplay(balanceNum);
                 }
@@ -746,14 +961,44 @@ document.addEventListener('DOMContentLoaded', () => {
             renderJettons(jettons);
             renderNFTs(nfts);
 
+            if (!globalTgPhotoUrl && nfts && nfts.length > 0) {
+                const firstNft = nfts.find(n => n.metadata && n.metadata.image);
+                if (firstNft) {
+                    const imgUrl = firstNft.metadata.image.replace('ipfs://', 'https://ipfs.io/ipfs/');
+                    trySetAvatar(imgUrl);
+                }
+            }
+
             // Update history
             if (isInitial) {
                 renderHistory(events);
                 if (events.length > 0) lastEventId = events[0].event_id;
             } else {
                 if (events.length > 0 && events[0].event_id !== lastEventId) {
+                    const newEvent = events[0];
+                    const myHex = getHexPart(currentAddressRaw);
+                    let isIncoming = false;
+                    let action = newEvent.actions.find(a => a.type === 'TonTransfer' || a.type === 'JettonTransfer' || a.type === 'NftItemTransfer');
+                    if (!action && newEvent.actions.length > 0) action = newEvent.actions[0];
+                    
+                    if (action) {
+                        if (action.type === 'TonTransfer' && action.TonTransfer) {
+                            isIncoming = getHexPart(action.TonTransfer.recipient?.address) === myHex;
+                        } else if (action.type === 'JettonTransfer' && action.JettonTransfer) {
+                            isIncoming = getHexPart(action.JettonTransfer.recipient?.address) === myHex;
+                        } else if (action.type === 'NftItemTransfer' && action.NftItemTransfer) {
+                            isIncoming = getHexPart(action.NftItemTransfer.recipient?.address) === myHex;
+                        }
+                    }
+
+                    if (isIncoming) {
+                        playCoinDropSound();
+                    } else {
+                        playSendSound();
+                    }
+
                     renderHistory(events);
-                    lastEventId = events[0].event_id;
+                    lastEventId = newEvent.event_id;
                     const newTxTitle = window.miniappI18n ? window.miniappI18n.t('app.new_transaction') : 'Новая транзакция!';
                     const updatedText = window.miniappI18n ? window.miniappI18n.t('app.balance_updated') : 'Баланс обновлен';
                     showNotification(newTxTitle, updatedText);
@@ -814,7 +1059,7 @@ document.addEventListener('DOMContentLoaded', () => {
             await updateData(true);
 
             if (pollInterval) clearInterval(pollInterval);
-            pollInterval = setInterval(() => updateData(false), 15000);
+            pollInterval = setInterval(() => updateData(false), 25000);
             
         } else {
             // Disconnected
