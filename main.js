@@ -132,7 +132,6 @@ document.addEventListener('DOMContentLoaded', () => {    // --- Splash Screen Lo
     const qrcodeContainer = document.getElementById('qrcode');
     const receiveMemo = document.getElementById('receive-memo');
     let qrCodeObj = null;
-
     let currentAddressRaw = null;
     let currentFriendlyAddress = null;
     let lastEventId = null;
@@ -159,7 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {    // --- Splash Screen Lo
         tabSections.forEach(sec => {
             if (sec.dataset.tabSection === tabId) {
                 sec.classList.remove('hidden');
-                sec.classList.add('flex', 'flex-col', 'gap-8');
+                sec.classList.add('flex', 'flex-col', 'gap-4');
                 // Small entrance animation when switching tabs
                 anime({
                     targets: sec,
@@ -170,7 +169,7 @@ document.addEventListener('DOMContentLoaded', () => {    // --- Splash Screen Lo
                 });
             } else {
                 sec.classList.add('hidden');
-                sec.classList.remove('flex', 'flex-col', 'gap-8');
+                sec.classList.remove('flex', 'flex-col', 'gap-4');
             }
         });
         
@@ -299,9 +298,10 @@ document.addEventListener('DOMContentLoaded', () => {    // --- Splash Screen Lo
     }
 
     function closeModals() {
+        const themeModalEl = document.getElementById('modal-theme');
         anime.timeline()
             .add({
-                targets: [modalReceive, modalSend, modalProfile, modalBeta, modalQrRub],
+                targets: [modalReceive, modalSend, modalProfile, modalBeta, modalQrRub, themeModalEl].filter(Boolean),
                 scale: [1, 0.95],
                 opacity: [1, 0],
                 duration: 300,
@@ -319,6 +319,7 @@ document.addEventListener('DOMContentLoaded', () => {    // --- Splash Screen Lo
                     if (modalProfile) modalProfile.classList.add('hidden');
                     if (modalBeta) modalBeta.classList.add('hidden');
                     if (modalQrRub) modalQrRub.classList.add('hidden');
+                    if (themeModalEl) themeModalEl.classList.add('hidden');
                 }
             }, '-=150');
     }
@@ -382,9 +383,69 @@ document.addEventListener('DOMContentLoaded', () => {    // --- Splash Screen Lo
     initProfile();
 
     document.querySelectorAll('.profile-setting-btn').forEach(btn => {
+        if (btn.classList.contains('theme-setting-btn')) return;
         btn.addEventListener('click', () => {
             const soonMsg = window.miniappI18n ? window.miniappI18n.t('app.soon') : 'В разработке';
             showNotification(soonMsg, btn.querySelector('span:last-child')?.textContent || 'Настройка');
+        });
+    });
+
+    const themeSettingBtn = document.querySelector('.theme-setting-btn');
+    const themeOptBtns = document.querySelectorAll('.theme-opt-btn');
+    const currentThemeName = document.getElementById('current-theme-name');
+
+    if (themeSettingBtn) {
+        themeSettingBtn.addEventListener('click', () => {
+            const modalThemeEl = document.getElementById('modal-theme');
+            if (modalThemeEl) openModal(modalThemeEl);
+        });
+    }
+
+    const applyTheme = (theme) => {
+        document.body.classList.remove('theme-light', 'theme-neon', 'theme-dark');
+        if (theme === 'light') {
+            document.body.classList.add('theme-light');
+            if (currentThemeName) {
+                currentThemeName.textContent = window.miniappI18n ? window.miniappI18n.t('app.theme_light') : '☀️ Светлая';
+                currentThemeName.setAttribute('data-i18n', 'app.theme_light');
+            }
+        } else if (theme === 'neon') {
+            document.body.classList.add('theme-neon');
+            if (currentThemeName) {
+                currentThemeName.textContent = window.miniappI18n ? window.miniappI18n.t('app.theme_neon') : '🔮 Неоновая';
+                currentThemeName.setAttribute('data-i18n', 'app.theme_neon');
+            }
+        } else {
+            if (currentThemeName) {
+                currentThemeName.textContent = window.miniappI18n ? window.miniappI18n.t('app.theme_dark') : '🌑 Тёмная';
+                currentThemeName.setAttribute('data-i18n', 'app.theme_dark');
+            }
+        }
+        
+        if (window.miniappsAI && miniappsAI.storage) {
+            miniappsAI.storage.setItem('userTheme', theme, { sync: false }).catch(() => {});
+        } else {
+            try { localStorage.setItem('userTheme', theme); } catch(e) {}
+        }
+    };
+
+    const loadTheme = async () => {
+        let savedTheme = null;
+        if (window.miniappsAI && miniappsAI.storage) {
+            try { savedTheme = await miniappsAI.storage.getItem('userTheme'); } catch(e) {}
+        } 
+        if (!savedTheme) {
+            try { savedTheme = localStorage.getItem('userTheme'); } catch(e) {}
+        }
+        if (savedTheme) applyTheme(savedTheme);
+    };
+    
+    setTimeout(loadTheme, 100);
+
+    themeOptBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            applyTheme(btn.dataset.themeVal);
+            closeModals();
         });
     });
 
@@ -465,7 +526,23 @@ document.addEventListener('DOMContentLoaded', () => {    // --- Splash Screen Lo
         });
     }
 
+    const nftRentBtn = document.querySelector('.nft-rent-btn');
+    if (nftRentBtn) {
+        nftRentBtn.addEventListener('click', () => {
+            const soonMsg = window.miniappI18n ? window.miniappI18n.t('app.soon') : 'В разработке';
+            showNotification(soonMsg, 'Аренда NFT');
+        });
+    }
+
     document.querySelectorAll('.send-opt-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const soonMsg = window.miniappI18n ? window.miniappI18n.t('app.soon') : 'В разработке';
+            showNotification(soonMsg, btn.textContent.trim());
+            closeModals();
+        });
+    });
+
+    document.querySelectorAll('.qr-opt-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             const soonMsg = window.miniappI18n ? window.miniappI18n.t('app.soon') : 'В разработке';
             showNotification(soonMsg, btn.textContent.trim());
@@ -1039,8 +1116,9 @@ document.addEventListener('DOMContentLoaded', () => {    // --- Splash Screen Lo
 
                     // Show bottom nav
                     bottomNav.classList.remove('hidden');
+                    const elementsToShow = [bottomNav];
                     anime({
-                        targets: bottomNav,
+                        targets: elementsToShow,
                         opacity: [0, 1],
                         translateY: [50, 0],
                         duration: 600,
@@ -1070,8 +1148,10 @@ document.addEventListener('DOMContentLoaded', () => {    // --- Splash Screen Lo
             if (fiatBalanceEl) fiatBalanceEl.innerHTML = '';
             if (pollInterval) clearInterval(pollInterval);
             
+            const elementsToHide = [connectedStateContainer, bottomNav];
+            
             anime({
-                targets: [connectedStateContainer, bottomNav],
+                targets: elementsToHide,
                 opacity: 0,
                 translateY: 20,
                 duration: 400,
