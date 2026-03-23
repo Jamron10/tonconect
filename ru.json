@@ -1,6 +1,9 @@
 {
   "app": {
-    "title": "🎱 TON VIP",
+    "splash_title": "TON VIP TELEPORT",
+    "splash_subtitle": "TERMINAL",
+    "splash_loading": "загрузка...",
+    "title": "TON VIP",
     "subtitle": "Teleport terminal",
     "empty_title": "Кошелек не подключен",
     "empty_desc": "Для просмотра баланса и данных аккаунта подключите свой кошелек.",
@@ -65,6 +68,19 @@
     "send_opt_other": "🪙 Другим способом",
     "soon": "В разработке",
     "qr_rub_btn": "[ - ] QR в РУБ",
-    "stars_rub_btn": "Вывести или оплатить Telegram звёздами как за RUB"
+    "qr_rub_title": "QR в РУБ",
+    "qr_rub_desc": "💳 Для оплаты в RUB за ваши TON нажмите команду /karta или используйте инлайн команду @karta_robot сумма RUB",
+    "stars_rub_btn": "Вывести или оплатить Telegram звёздами как за RUB",
+    "efir_btn": "Эфир",
+    "beta_badge": "BETA",
+    "beta_title": "Вы используете бета-версию приложения",
+    "beta_desc": "Если заметите ошибки или у вас будут идеи по улучшению, поделитесь обратной связью — это поможет сделать наш кошелек лучше!",
+    "beta_feedback_btn": "Дать обратную связь",
+    "profile_title": "Профиль",
+    "settings": "Настройки",
+    "language": "Язык",
+    "theme": "Оформление",
+    "notifications": "Уведомления",
+    "qr_rub_bot_btn": "Открыть @karta_robot"
   }
 }
