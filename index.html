@@ -14,7 +14,31 @@
   <script src="https://unpkg.com/tonweb@0.0.66/dist/tonweb.js"></script>
   <link rel="stylesheet" href="styles.css">
 </head>
-<body class="min-h-screen bg-black text-slate-100 flex flex-col font-sans antialiased relative overflow-x-hidden pt-8 pb-32 selection:bg-cyan-500/30">
+<body class="min-h-screen bg-black text-slate-100 flex flex-col font-sans antialiased relative overflow-x-hidden pt-8 pb-32 selection:bg-cyan-500/30">  
+  <!-- Splash Screen -->
+  <div id="splash-screen" class="fixed inset-0 bg-black z-[100] flex flex-col items-center justify-center overflow-hidden">
+    <div class="absolute inset-0 overflow-hidden pointer-events-none z-0">
+      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-cyan-600/20 rounded-full mix-blend-screen filter blur-[120px] animate-pulse"></div>
+    </div>
+    <div class="relative z-10 flex flex-col items-center">
+      <div id="splash-icon" class="w-28 h-28 rounded-[2rem] bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center shadow-[0_0_60px_rgba(6,182,212,0.5)] mb-8 transform scale-0 opacity-0 relative">
+        <div class="absolute inset-0 rounded-[2rem] border-2 border-white/20"></div>
+        <span class="text-6xl drop-shadow-xl" style="font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;">🎱</span>
+      </div>
+      <h1 id="splash-title" class="text-2xl sm:text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white to-slate-400 tracking-[0.2em] text-center opacity-0 mb-6 uppercase leading-snug">
+        <span data-i18n="app.splash_title">TON VIP TELEPORT</span><br>
+        <span class="text-cyan-400 text-lg sm:text-xl tracking-[0.3em]" data-i18n="app.splash_subtitle">TERMINAL</span>
+      </h1>
+      <div id="splash-loading-container" class="opacity-0 flex flex-col items-center gap-4">
+        <div class="flex items-center gap-2">
+          <div class="w-2 h-2 bg-cyan-400 rounded-full animate-bounce" style="animation-delay: 0ms"></div>
+          <div class="w-2 h-2 bg-cyan-400 rounded-full animate-bounce" style="animation-delay: 150ms"></div>
+          <div class="w-2 h-2 bg-cyan-400 rounded-full animate-bounce" style="animation-delay: 300ms"></div>
+        </div>
+        <div class="text-cyan-400/70 text-xs sm:text-sm font-bold tracking-widest uppercase" data-i18n="app.splash_loading">загрузка...</div>
+      </div>
+    </div>
+  </div>
   
   <!-- Animated Background Orbs -->
   <div class="fixed inset-0 overflow-hidden pointer-events-none z-0 transform-gpu">
@@ -26,19 +50,30 @@
   <div id="app" class="mx-auto w-full max-w-2xl px-4 sm:px-6 relative z-10 flex flex-col gap-8">
     
     <!-- Top Bar -->
-    <header class="flex flex-col sm:flex-row items-center justify-between gap-6 mb-2 pb-6 border-b border-white/5 relative">
-        <div class="flex items-center gap-4 group cursor-default">
-            <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center shadow-[0_0_30px_rgba(6,182,212,0.4)] shrink-0 transform transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3">
-                <svg class="w-8 h-8 text-white drop-shadow-md" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-            </div>
-            <div>
-                <h1 class="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white to-slate-400 tracking-tight" data-i18n="app.title">🎱 TON VIP</h1>
-                <p class="text-sm text-cyan-400 font-medium tracking-wide uppercase" data-i18n="app.subtitle">Teleport terminal</p>
+    <header class="flex items-center justify-between gap-2 mb-2 pb-4 border-b border-white/5 relative w-full">
+        <div class="flex items-center gap-3 group shrink-0">
+            <button id="profile-btn" class="w-11 h-11 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-tr from-cyan-500 to-blue-600 p-[2px] shadow-[0_0_30px_rgba(6,182,212,0.4)] shrink-0 transform transition-transform duration-500 hover:scale-110 hover:rotate-3 relative overflow-hidden flex items-center justify-center active:scale-95 focus:outline-none cursor-pointer">
+                <div class="absolute inset-0 bg-black/20 z-0"></div>
+                <img id="profile-avatar-img" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'/%3E" class="w-full h-full object-cover rounded-[14px] hidden z-10 relative bg-slate-800" alt="Profile" onerror="this.classList.add('hidden'); document.getElementById('profile-avatar-fallback').classList.remove('hidden');" />
+                <span id="profile-avatar-fallback" class="text-2xl sm:text-3xl drop-shadow-md z-10 relative" style="font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;">🎱</span>
+            </button>
+            <div class="flex flex-col justify-center">
+                <h1 class="text-xl sm:text-3xl font-extrabold tracking-tight flex items-center gap-1.5">
+                    <span class="drop-shadow-md inline" style="font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;">🎱</span>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-white to-slate-400 leading-none" data-i18n="app.title">TON VIP</span>
+                </h1>
+                <p class="text-[10px] sm:text-sm text-cyan-400 font-medium tracking-wide uppercase mt-0.5 sm:mt-0" data-i18n="app.subtitle">Teleport terminal</p>
             </div>
         </div>
         
-        <!-- TON Connect Button Root -->
-        <div id="ton-connect" class="hover:scale-105 transition-transform duration-300"></div>
+        <!-- TON Connect Button Root & Beta Badge -->
+        <div class="flex flex-col items-end gap-1.5 shrink-0 z-10 relative">
+            <div id="ton-connect" class="hover:scale-105 transition-transform duration-300 origin-right"></div>
+            <button id="beta-badge-btn" class="text-[9px] sm:text-[10px] bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 px-2 py-0.5 rounded flex items-center gap-1 font-bold uppercase tracking-widest transition-colors shadow-[0_0_10px_rgba(6,182,212,0.15)] active:scale-95" title="Beta Information">
+                <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
+                <span data-i18n="app.beta_badge">BETA</span>
+            </button>
+        </div>
     </header>
 
     <!-- Empty State -->
@@ -62,41 +97,35 @@
         <!-- ================= TAB: MAIN ================= -->
         <div data-tab-section="main" class="flex flex-col gap-8 w-full">
             <!-- Main Wallet Card -->
-            <section id="wallet-info-section" class="w-full rounded-[2.5rem] border border-white/10 bg-white/[0.03] p-6 sm:p-10 shadow-[0_8px_32px_0_rgba(0,0,0,0.5)] backdrop-blur-2xl relative overflow-hidden group">
+            <section id="wallet-info-section" class="w-full rounded-[2.5rem] border border-white/10 bg-white/[0.03] p-5 sm:p-10 shadow-[0_8px_32px_0_rgba(0,0,0,0.5)] backdrop-blur-2xl relative overflow-hidden group">
                 <div class="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none"></div>
 
-                <div id="wallet-info-card" class="flex flex-col space-y-8 relative z-10">
-                    <div class="flex items-center justify-between pb-6 border-b border-white/5">
-                        <span class="text-slate-400 font-semibold tracking-wide uppercase text-sm" data-i18n="app.wallet_status">Статус</span>
-                        <div class="px-5 py-2 bg-green-500/10 border border-green-500/30 rounded-full flex items-center gap-2.5 shadow-[0_0_15px_rgba(34,197,94,0.15)]">
+                <div id="wallet-info-card" class="flex flex-col space-y-6 relative z-10">
+                    <!-- Top Row: Status & Address -->
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-2">
                             <span class="w-2.5 h-2.5 rounded-full bg-green-400 animate-pulse shadow-[0_0_10px_rgba(74,222,128,1)]"></span>
-                            <span class="text-green-400 font-bold tracking-wide text-sm" data-i18n="app.connected">Подключен</span>
+                            <span class="text-slate-400 font-semibold tracking-wide uppercase text-sm" data-i18n="app.balance">Баланс</span>
                         </div>
+                        
+                        <button id="copy-btn" class="flex items-center gap-2 bg-black/40 hover:bg-black/60 border border-white/5 hover:border-cyan-500/30 rounded-full py-1.5 px-3 transition-all duration-300 active:scale-95 group" title="Скопировать адрес">
+                            <span id="wallet-address" class="font-mono text-xs sm:text-sm text-slate-300 group-hover:text-white transition-colors truncate max-w-[120px] sm:max-w-[180px]">-</span>
+                            <svg class="w-4 h-4 text-slate-500 group-hover:text-cyan-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                        </button>
                     </div>
 
-                    <div class="space-y-3">
-                        <span class="text-slate-400 font-semibold tracking-wide uppercase text-sm block" data-i18n="app.address">Адрес кошелька</span>
-                        <div class="bg-black/40 rounded-2xl p-5 font-mono text-sm sm:text-base text-slate-300 border border-white/5 flex items-center justify-between transition-all duration-300 hover:bg-black/60 hover:border-white/20 hover:shadow-[0_0_20px_rgba(255,255,255,0.05)]">
-                            <span id="wallet-address" class="truncate mr-4 tracking-widest text-white/80">-</span>
-                            <button id="copy-btn" class="text-slate-500 hover:text-cyan-400 transition-all duration-300 p-2.5 -m-2 rounded-xl hover:bg-cyan-500/10 active:scale-95">
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
-                            </button>
+                    <!-- Balance Block -->
+                    <div class="bg-gradient-to-br from-cyan-600/10 via-blue-600/10 to-purple-600/10 rounded-[2rem] p-6 sm:p-10 border border-white/10 flex flex-col justify-end gap-2 shadow-[inset_0_0_40px_rgba(255,255,255,0.02)] relative overflow-hidden">
+                        <div class="absolute -right-10 -top-10 w-40 h-40 bg-cyan-500/20 rounded-full blur-3xl pointer-events-none"></div>
+                        
+                        <div class="flex items-baseline gap-2 sm:gap-3 z-10">
+                            <span id="wallet-balance" class="text-5xl sm:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-blue-400 to-purple-400 tracking-tighter drop-shadow-xl">-</span>
+                            <span class="text-cyan-400 text-lg sm:text-xl font-bold flex items-center gap-1 sm:gap-1.5 uppercase tracking-widest">
+                                <img src="https://i.yapx.ru/dOAJJ.jpg" alt="TON" class="w-5 h-5 sm:w-6 sm:h-6 rounded-full shadow-[0_0_10px_rgba(34,211,238,0.5)] object-cover">
+                                TON
+                            </span>
                         </div>
-                    </div>
-
-                    <div class="space-y-4 pt-4 pb-2">
-                        <span class="text-slate-400 font-semibold tracking-wide uppercase text-sm block" data-i18n="app.balance">Доступный баланс</span>
-                        <div class="bg-gradient-to-br from-cyan-600/10 via-blue-600/10 to-purple-600/10 rounded-[2rem] p-8 sm:p-10 border border-white/10 flex flex-col justify-end gap-3 shadow-[inset_0_0_40px_rgba(255,255,255,0.02)] relative overflow-hidden">
-                            <div class="absolute -right-10 -top-10 w-40 h-40 bg-cyan-500/20 rounded-full blur-3xl pointer-events-none"></div>
-                            
-                            <div class="flex items-baseline gap-3 z-10">
-                                <span id="wallet-balance" class="text-6xl sm:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-blue-400 to-purple-400 tracking-tighter drop-shadow-xl">-</span>
-                                <span class="text-cyan-400 text-xl font-bold flex items-center gap-1.5 uppercase tracking-widest">
-                                    <svg class="w-6 h-6 text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,0.8)]" viewBox="0 0 24 24" fill="currentColor"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM12 5.5L16.5 13H13.5V18.5L9 11H12V5.5Z"></path></svg>
-                                    TON
-                                </span>
-                            </div>                            <div id="fiat-balance" class="z-10 mt-1 flex items-center gap-2"></div>
-                        </div>
+                        <div id="fiat-balance" class="z-10 mt-1 flex items-center gap-2"></div>
                     </div>
 
                     <!-- Action Buttons -->
@@ -120,6 +149,16 @@
                         <span class="text-xl drop-shadow-md">⭐</span>
                         <span data-i18n="app.stars_rub_btn">Вывести или оплатить Telegram звёздами как за RUB</span>
                     </button>
+                    
+                    <!-- Efir Animated Button -->
+                    <a href="https://t.me/efir_robot/modeli" target="_blank" rel="noopener noreferrer" class="twa-link w-full mt-3 bg-red-500/10 hover:bg-red-500/20 text-red-400 hover:text-white py-3.5 px-4 rounded-2xl font-bold text-sm sm:text-base transition-all duration-300 border border-red-500/30 hover:border-red-500/50 shadow-[0_0_15px_rgba(239,68,68,0.15)] hover:shadow-[0_0_25px_rgba(239,68,68,0.3)] flex justify-center items-center gap-2 hover:-translate-y-1 active:scale-95 relative overflow-hidden group">
+                        <span class="absolute right-4 top-1/2 -translate-y-1/2 flex h-3 w-3">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500 shadow-[0_0_8px_rgba(239,68,68,1)]"></span>
+                        </span>
+                        <span class="text-xl drop-shadow-md animate-pulse">🎥</span>
+                        <span data-i18n="app.efir_btn" class="tracking-wide">Эфир</span>
+                    </a>
                 </div>
             </section>
 
@@ -238,6 +277,99 @@
     <!-- Modals Overlay -->
     <div id="modals-overlay" class="fixed inset-0 bg-black/80 backdrop-blur-lg z-50 hidden opacity-0 flex items-center justify-center p-4">
         
+        <!-- QR RUB Modal -->
+        <div id="modal-qr-rub" class="hidden bg-slate-900 border border-white/20 rounded-[2.5rem] p-6 w-full max-w-sm shadow-[0_0_50px_rgba(0,0,0,0.8)] scale-95 opacity-0 flex flex-col relative overflow-hidden">
+            <div class="absolute -top-32 -left-32 w-64 h-64 bg-cyan-500/20 rounded-full blur-[80px] pointer-events-none z-0"></div>
+            <div class="flex justify-between items-center mb-4 z-10 shrink-0">
+                <h3 class="text-xl font-extrabold text-white tracking-tight" data-i18n="app.qr_rub_title">QR в РУБ</h3>
+                <button class="modal-close text-slate-400 hover:text-white bg-white/5 rounded-full p-2 transition-colors">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            <div class="z-10 flex flex-col items-center text-center mt-2 mb-6">
+                <p class="text-slate-300 text-sm leading-relaxed" data-i18n="app.qr_rub_desc">💳 Для оплаты в RUB за ваши TON нажмите команду /karta или используйте инлайн команду @karta_robot сумма RUB</p>
+            </div>
+            <div class="z-10 w-full flex flex-col gap-3">
+                <a href="https://t.me/karta_robot" target="_blank" rel="noopener noreferrer" class="twa-link w-full bg-[#24A1DE] hover:bg-[#24A1DE]/80 text-white py-3.5 px-4 rounded-2xl font-bold text-sm sm:text-base transition-all shadow-lg flex items-center justify-center gap-2 hover:-translate-y-1 active:scale-95">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.922-.916-1.092-.711-1.708-1.15-2.77-1.85-.115-.078-.239-.158-.356-.237-.15-.1-.318-.21-.497-.33-.2-.132-.423-.284-.627-.428l-1.636-1.063c-.563-.377-.24-.585.114-.948l.26-.25c1.802-1.724 3.864-3.627 5.152-4.887.258-.252.515-.556.09-.836-.432-.284-1.018-.088-1.503.116-2.029.855-4.228 2.378-5.694 3.421-.864.615-1.597.906-2.25.89-.724-.018-2.119-.41-3.153-.746-1.266-.412-2.272-.628-2.185-1.324.045-.363.535-.742 1.474-1.139 5.768-2.511 9.613-4.172 11.535-4.981 1.096-.462 2.316-.902 3.193-.914z"/></svg>
+                    <span data-i18n="app.qr_rub_bot_btn">Открыть @karta_robot</span>
+                </a>
+                <button class="modal-close w-full bg-white/5 hover:bg-white/10 text-white py-3.5 rounded-2xl font-bold transition-all border border-white/10 hover:border-white/30" data-i18n="app.close">Закрыть</button>
+            </div>
+        </div>
+
+        <!-- Beta Modal -->
+        <div id="modal-beta" class="hidden bg-slate-900 border border-white/20 rounded-[2.5rem] p-6 w-full max-w-sm shadow-[0_0_50px_rgba(0,0,0,0.8)] scale-95 opacity-0 flex flex-col relative overflow-hidden">
+            <div class="absolute -top-32 -left-32 w-64 h-64 bg-cyan-500/20 rounded-full blur-[80px] pointer-events-none z-0"></div>
+            
+            <div class="flex justify-between items-center mb-4 z-10 shrink-0">
+                <div class="bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 px-3 py-1 rounded-lg font-bold uppercase tracking-widest text-xs flex items-center gap-1.5">
+                    <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+                    <span data-i18n="app.beta_badge">BETA</span>
+                </div>
+                <button class="modal-close text-slate-400 hover:text-white bg-white/5 rounded-full p-2 transition-colors">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+
+            <div class="z-10 flex flex-col items-center text-center mt-2 mb-6">
+                <h3 class="text-xl font-extrabold text-white mb-3 tracking-tight leading-tight" data-i18n="app.beta_title">Вы используете бета-версию приложения</h3>
+                <p class="text-slate-400 text-sm leading-relaxed" data-i18n="app.beta_desc">Если заметите ошибки или у вас будут идеи по улучшению, поделитесь обратной связью — это поможет сделать наш кошелек лучше!</p>
+            </div>
+
+            <div class="z-10 w-full">
+                <a href="https://t.me/MOHETKA_BOT" target="_blank" rel="noopener noreferrer" class="twa-link w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white py-3.5 px-4 rounded-2xl font-bold text-sm sm:text-base transition-all shadow-[0_0_20px_rgba(6,182,212,0.3)] hover:shadow-[0_0_30px_rgba(6,182,212,0.5)] flex items-center justify-center gap-2 hover:-translate-y-1 active:scale-95">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
+                    <span data-i18n="app.beta_feedback_btn">Дать обратную связь</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Profile Modal -->
+        <div id="modal-profile" class="hidden bg-slate-900 border border-white/20 rounded-[2.5rem] p-6 w-full max-w-sm shadow-[0_0_50px_rgba(0,0,0,0.8)] scale-95 opacity-0 flex flex-col relative overflow-hidden max-h-[85vh]">
+            <div class="absolute -top-32 -left-32 w-64 h-64 bg-purple-500/20 rounded-full blur-[80px] pointer-events-none z-0"></div>
+            
+            <div class="flex justify-between items-center mb-6 z-10 shrink-0">
+                <h3 class="text-2xl font-extrabold text-white tracking-tight" data-i18n="app.profile_title">Профиль</h3>
+                <button class="modal-close text-slate-400 hover:text-white bg-white/5 rounded-full p-2 transition-colors">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+
+            <div class="flex flex-col items-center gap-4 mb-6 z-10 shrink-0">
+                <div class="w-24 h-24 rounded-[2rem] bg-gradient-to-tr from-cyan-500 to-blue-600 p-[2px] shadow-[0_0_30px_rgba(6,182,212,0.4)] relative">
+                    <img id="modal-profile-img" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'/%3E" class="w-full h-full object-cover rounded-[1.8rem] hidden bg-slate-800 relative z-10" alt="Profile" onerror="this.classList.add('hidden'); document.getElementById('modal-profile-fallback').classList.remove('hidden');" />
+                    <div id="modal-profile-fallback" class="w-full h-full flex items-center justify-center text-4xl bg-slate-800 rounded-[1.8rem] relative z-10 border-[3px] border-slate-900" style="font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;">🎱</div>
+                </div>
+                <div class="text-center">
+                    <div id="modal-profile-name" class="text-xl font-bold text-white tracking-wide">Телепорт Юзер</div>
+                    <div id="modal-profile-username" class="text-cyan-400 text-sm mt-1 hidden">@username</div>
+                </div>
+            </div>
+
+            <div class="flex flex-col gap-2.5 z-10 overflow-y-auto pr-1 custom-scrollbar pb-2">
+                <div class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1 pl-2" data-i18n="app.settings">Настройки</div>
+                <button class="profile-setting-btn bg-white/5 hover:bg-white/10 text-white py-3.5 px-4 rounded-2xl font-semibold text-sm sm:text-base transition-all border border-white/10 hover:border-white/30 flex items-center justify-between text-left">
+                    <div class="flex items-center gap-3">
+                        <span class="text-xl drop-shadow-md">🌐</span> <span data-i18n="app.language">Язык</span>
+                    </div>
+                    <span class="text-slate-400 text-sm">Русский</span>
+                </button>
+                <button class="profile-setting-btn bg-white/5 hover:bg-white/10 text-white py-3.5 px-4 rounded-2xl font-semibold text-sm sm:text-base transition-all border border-white/10 hover:border-white/30 flex items-center justify-between text-left">
+                    <div class="flex items-center gap-3">
+                        <span class="text-xl drop-shadow-md">🎨</span> <span data-i18n="app.theme">Оформление</span>
+                    </div>
+                    <span class="text-slate-400 text-sm">Тёмная</span>
+                </button>
+                <button class="profile-setting-btn bg-white/5 hover:bg-white/10 text-white py-3.5 px-4 rounded-2xl font-semibold text-sm sm:text-base transition-all border border-white/10 hover:border-white/30 flex items-center justify-between text-left">
+                    <div class="flex items-center gap-3">
+                        <span class="text-xl drop-shadow-md">🔔</span> <span data-i18n="app.notifications">Уведомления</span>
+                    </div>
+                    <div class="w-10 h-6 bg-cyan-500 rounded-full relative shadow-[0_0_10px_rgba(6,182,212,0.5)]"><div class="absolute right-1 top-1 w-4 h-4 bg-white rounded-full shadow"></div></div>
+                </button>
+            </div>
+        </div>
+
         <!-- Receive Modal -->
         <div id="modal-receive" class="hidden bg-slate-900 border border-white/20 rounded-[2.5rem] p-8 w-full max-w-sm shadow-[0_0_50px_rgba(0,0,0,0.8)] scale-95 opacity-0 flex flex-col relative overflow-hidden">
             <div class="absolute -top-32 -right-32 w-64 h-64 bg-cyan-500/20 rounded-full blur-[80px] pointer-events-none"></div>
