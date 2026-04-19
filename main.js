@@ -6,13 +6,18 @@ document.addEventListener('DOMContentLoaded', () => {    // --- Splash Screen Lo
         // Hide app container initially
         appContainer.style.opacity = '0';
         appContainer.style.transform = 'translateY(20px)';
+        const initialBottomNav = document.getElementById('bottom-nav');
+        if (initialBottomNav) {
+            initialBottomNav.style.opacity = '0';
+            initialBottomNav.style.transform = 'translateY(20px)';
+        }
 
         anime.timeline({
             complete: () => {
                 splashScreen.classList.add('hidden');
                 // Reveal main app
                 anime({
-                    targets: appContainer,
+                    targets: [appContainer, '#bottom-nav'],
                     opacity: [0, 1],
                     translateY: [20, 0],
                     duration: 800,
@@ -56,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {    // --- Splash Screen Lo
         window.Telegram.WebApp.expand();
     }
     // Determine the manifest URL based on the current domain/path
-    const manifestUrl = new URL('tonconnect-manifest.json', window.location.href).href;
+    const manifestUrl = new URL('tonconnect-manifest.json?v=' + Date.now(), window.location.href).href;
 
     const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
         manifestUrl: manifestUrl,
@@ -86,6 +91,14 @@ document.addEventListener('DOMContentLoaded', () => {    // --- Splash Screen Lo
             tonConnectUI.openModal();
         });
     }
+
+    document.querySelectorAll('.requires-wallet-container').forEach(el => {
+        el.addEventListener('click', () => {
+            if (tonConnectUI) {
+                tonConnectUI.openModal();
+            }
+        });
+    });
     const connectedStateContainer = document.getElementById('connected-state-container');
     const bottomNav = document.getElementById('bottom-nav');
     const navBtns = document.querySelectorAll('.nav-btn');
@@ -118,11 +131,11 @@ document.addEventListener('DOMContentLoaded', () => {    // --- Splash Screen Lo
 
     // Modals elements
     const modalsOverlay = document.getElementById('modals-overlay');
+    const modalBeta = document.getElementById('modal-beta');
+    const betaBadgeBtn = document.getElementById('beta-badge-btn');
     const modalProfile = document.getElementById('modal-profile');
     const profileBtn = document.getElementById('profile-btn');
-    const modalBeta = document.getElementById('modal-beta');
     const modalQrRub = document.getElementById('modal-qr-rub');
-    const betaBadgeBtn = document.getElementById('beta-badge-btn');
     const modalReceive = document.getElementById('modal-receive');
     const modalSend = document.getElementById('modal-send');
     const btnReceive = document.getElementById('btn-receive');
@@ -179,6 +192,10 @@ document.addEventListener('DOMContentLoaded', () => {    // --- Splash Screen Lo
 
     navBtns.forEach(btn => {
         btn.addEventListener('click', () => {
+            if (!currentFriendlyAddress) {
+                if (typeof tonConnectUI !== 'undefined') tonConnectUI.openModal();
+                return;
+            }
             switchTab(btn.dataset.tab);
         });
     });
@@ -301,7 +318,7 @@ document.addEventListener('DOMContentLoaded', () => {    // --- Splash Screen Lo
         const themeModalEl = document.getElementById('modal-theme');
         anime.timeline()
             .add({
-                targets: [modalReceive, modalSend, modalProfile, modalBeta, modalQrRub, themeModalEl].filter(Boolean),
+                targets: [modalReceive, modalSend, modalProfile, modalQrRub, themeModalEl, modalBeta].filter(Boolean),
                 scale: [1, 0.95],
                 opacity: [1, 0],
                 duration: 300,
@@ -336,7 +353,7 @@ document.addEventListener('DOMContentLoaded', () => {    // --- Splash Screen Lo
 
     if (betaBadgeBtn) {
         betaBadgeBtn.addEventListener('click', () => {
-            openModal(modalBeta);
+            if (modalBeta) openModal(modalBeta);
         });
     }
 
@@ -1114,16 +1131,7 @@ document.addEventListener('DOMContentLoaded', () => {    // --- Splash Screen Lo
                     // Show Main tab initially
                     switchTab('main');
 
-                    // Show bottom nav
-                    bottomNav.classList.remove('hidden');
-                    const elementsToShow = [bottomNav];
-                    anime({
-                        targets: elementsToShow,
-                        opacity: [0, 1],
-                        translateY: [50, 0],
-                        duration: 600,
-                        easing: 'easeOutExpo'
-                    });
+                    // Bottom nav is permanently visible
                 }
             });
 
@@ -1148,7 +1156,7 @@ document.addEventListener('DOMContentLoaded', () => {    // --- Splash Screen Lo
             if (fiatBalanceEl) fiatBalanceEl.innerHTML = '';
             if (pollInterval) clearInterval(pollInterval);
             
-            const elementsToHide = [connectedStateContainer, bottomNav];
+            const elementsToHide = [connectedStateContainer];
             
             anime({
                 targets: elementsToHide,
@@ -1158,7 +1166,6 @@ document.addEventListener('DOMContentLoaded', () => {    // --- Splash Screen Lo
                 easing: 'easeInQuad',
                 complete: () => {
                     connectedStateContainer.classList.add('hidden');
-                    bottomNav.classList.add('hidden');
                     emptyState.classList.remove('hidden');
                     
                     anime({
@@ -1172,4 +1179,5 @@ document.addEventListener('DOMContentLoaded', () => {    // --- Splash Screen Lo
             });
         }
     });
+
 });
