@@ -121,6 +121,7 @@
     "svc_nft_mail": "📩 Telegram NFT почта",
     "svc_ton_names": "🎱 TON Names (VIP domain)",
     "svc_vpn": "👑 Анонимный VIP VPN",
+    "qr_rub_opt_mirpay": "🌐 Через Mir Pay по NFC (СБП)",
     "svc_web_dev": "🌐 Разработка веб-приложений"
   }
 }
