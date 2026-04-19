@@ -77,18 +77,60 @@
     </header>
 
     <!-- Empty State -->
-    <main id="empty-state" class="w-full rounded-[2.5rem] border border-white/10 bg-white/[0.02] p-6 sm:p-8 shadow-[0_8px_32px_0_rgba(0,0,0,0.5)] backdrop-blur-2xl relative overflow-hidden flex flex-col items-center justify-center min-h-[40vh]">
-        <div class="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent opacity-50 pointer-events-none"></div>
-        <div class="w-32 h-32 rounded-full bg-gradient-to-tr from-cyan-500/10 to-purple-500/10 mb-4 flex items-center justify-center shadow-[inset_0_0_30px_rgba(255,255,255,0.05)] border border-white/5 relative group hover:scale-110 transition-transform duration-700">
-            <div class="absolute inset-0 rounded-full bg-cyan-400/20 animate-ping opacity-20 duration-1000"></div>
-            <svg class="w-14 h-14 text-slate-400 group-hover:text-cyan-400 transition-colors duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>
-        </div>
-        <h2 class="text-3xl font-bold text-white mb-4 tracking-tight" data-i18n="app.empty_title">Кошелек не подключен</h2>
-        <p class="text-slate-400 text-lg max-w-md leading-relaxed text-center" data-i18n="app.empty_desc">Для просмотра баланса и данных аккаунта подключите свой кошелек.</p>
-        <button id="hero-connect-btn" class="mt-8 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white px-8 py-4 rounded-full font-bold text-lg transition-all duration-300 shadow-[0_0_20px_rgba(6,182,212,0.4)] hover:shadow-[0_0_30px_rgba(6,182,212,0.6)] flex items-center gap-3 hover:-translate-y-1 active:scale-95">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
-            <span data-i18n="app.connect_btn">Подключить кошелек</span>
-        </button>
+    <main id="empty-state" class="w-full flex flex-col gap-4">
+        <!-- Hero Card -->
+        <section class="w-full rounded-[2.5rem] border border-white/10 bg-white/[0.02] p-6 sm:p-8 shadow-[0_8px_32px_0_rgba(0,0,0,0.5)] backdrop-blur-2xl relative overflow-hidden flex flex-col items-center justify-center min-h-[35vh]">
+            <div class="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent opacity-50 pointer-events-none"></div>
+            <div class="w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-gradient-to-tr from-cyan-500/10 to-purple-500/10 mb-4 flex items-center justify-center shadow-[inset_0_0_30px_rgba(255,255,255,0.05)] border border-white/5 relative group hover:scale-110 transition-transform duration-700">
+                <div class="absolute inset-0 rounded-full bg-cyan-400/20 animate-ping opacity-20 duration-1000"></div>
+                <svg class="w-10 h-10 sm:w-14 sm:h-14 text-slate-400 group-hover:text-cyan-400 transition-colors duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>
+            </div>
+            <h2 class="text-2xl sm:text-3xl font-bold text-white mb-3 sm:mb-4 tracking-tight text-center" data-i18n="app.empty_title">Кошелек не подключен</h2>
+            <p class="text-slate-400 text-base sm:text-lg max-w-md leading-relaxed text-center" data-i18n="app.empty_desc">Для просмотра баланса и данных аккаунта подключите свой кошелек.</p>
+            <button id="hero-connect-btn" class="mt-6 sm:mt-8 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white px-6 py-3 sm:px-8 sm:py-4 rounded-full font-bold text-base sm:text-lg transition-all duration-300 shadow-[0_0_20px_rgba(6,182,212,0.4)] hover:shadow-[0_0_30px_rgba(6,182,212,0.6)] flex items-center gap-3 hover:-translate-y-1 active:scale-95">
+                <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
+                <span data-i18n="app.connect_btn">Подключить кошелек</span>
+            </button>
+        </section>
+
+        <!-- Preview Features -->
+        <section class="requires-wallet-container w-full bg-white/[0.02] backdrop-blur-2xl p-4 sm:p-5 rounded-[2.5rem] border border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.5)] flex flex-col gap-3 relative overflow-hidden group cursor-pointer transition-all hover:border-cyan-500/30 hover:bg-white/[0.04]">
+            <div class="absolute inset-0 z-20 flex items-center justify-center bg-black/50 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <div class="bg-cyan-500/20 text-cyan-300 border border-cyan-500/50 px-5 py-2.5 rounded-xl font-bold backdrop-blur-md flex items-center gap-2.5 shadow-[0_0_20px_rgba(6,182,212,0.4)] transform scale-95 group-hover:scale-100 transition-transform duration-300">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                    <span data-i18n="app.connect_to_use">Подключите кошелек</span>
+                </div>
+            </div>
+            
+            <h3 class="text-center text-slate-400 font-medium text-xs sm:text-sm mb-1 uppercase tracking-widest z-10" data-i18n="app.preview_features">Возможности терминала</h3>
+            
+            <div class="flex gap-2 sm:gap-3 z-10 pointer-events-none opacity-60 grayscale-[50%] blur-[1px] transition-all duration-300 group-hover:blur-sm group-hover:grayscale">
+                <div class="flex-1 bg-gradient-to-r from-cyan-500 to-blue-600 text-white py-3 rounded-2xl font-bold text-xs sm:text-sm shadow-[0_0_20px_rgba(6,182,212,0.3)] flex flex-col sm:flex-row justify-center items-center gap-1.5">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m0 0l-6-6m6 6l6-6"></path></svg>
+                    <span data-i18n="app.receive_btn">Пополнить</span>
+                </div>
+                <div class="flex-1 bg-white/10 text-white py-3 rounded-2xl font-bold text-xs sm:text-sm border border-white/10 flex flex-col sm:flex-row justify-center items-center gap-1.5 shadow-lg">
+                    <svg class="w-5 h-5 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h2v2h-2zM18 14h2v2h-2zM14 18h2v2h-2zM18 18h2v2h-2z"></path></svg>
+                    <span data-i18n="app.qr_rub_btn" class="whitespace-nowrap sm:whitespace-normal">[ - ] QR в РУБ</span>
+                </div>
+                <div class="flex-1 bg-white/10 text-white py-3 rounded-2xl font-bold text-xs sm:text-sm border border-white/10 flex flex-col sm:flex-row justify-center items-center gap-1.5 shadow-lg">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 20V4m0 0l-6 6m6-6l6 6"></path></svg>
+                    <span data-i18n="app.send_btn">Отправить</span>
+                </div>
+            </div>
+            
+            <div class="flex flex-col sm:flex-row gap-2.5 z-10 pointer-events-none opacity-60 grayscale-[50%] blur-[1px] transition-all duration-300 group-hover:blur-sm group-hover:grayscale">
+                <div class="w-full sm:flex-1 bg-[#2AABEE]/10 text-[#2AABEE] py-3 px-4 rounded-2xl font-bold text-xs sm:text-sm border border-[#2AABEE]/30 shadow-[0_0_15px_rgba(42,171,238,0.1)] flex items-center gap-3">
+                    <span class="text-2xl drop-shadow-md shrink-0">⭐</span>
+                    <span data-i18n="app.stars_rub_btn" class="leading-snug whitespace-normal break-words text-left w-full">Купить/продать или оплатить Telegram звëздами как за RUB</span>
+                </div>
+                
+                <div class="w-full sm:w-1/3 bg-red-500/10 text-red-400 py-3 px-3 rounded-2xl font-bold text-xs sm:text-sm border border-red-500/30 shadow-[0_0_15px_rgba(239,68,68,0.15)] flex justify-center items-center gap-2">
+                    <span class="text-lg drop-shadow-md">🎥</span>
+                    <span data-i18n="app.efir_btn" class="tracking-wide">Эфир</span>
+                </div>
+            </div>
+        </section>
     </main>
 
     <!-- Connected State Container (holds the sections) -->
@@ -269,7 +311,7 @@
   </div> <!-- End of app container -->
 
     <!-- Bottom Navigation Bar -->
-    <nav id="bottom-nav" class="fixed bottom-0 left-0 right-0 bg-black/80 backdrop-blur-2xl border-t border-white/10 z-50 hidden pb-safe shadow-[0_-10px_30px_rgba(0,0,0,0.5)]">
+    <nav id="bottom-nav" class="fixed bottom-0 left-0 right-0 bg-black/80 backdrop-blur-2xl border-t border-white/10 z-50  pb-safe shadow-[0_-10px_30px_rgba(0,0,0,0.5)]">
         <div class="max-w-2xl mx-auto px-2 py-3 flex justify-between sm:justify-around items-center">
             <button class="nav-btn flex flex-col items-center gap-1.5 text-cyan-400 flex-1 transition-transform active:scale-95" data-tab="main">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
