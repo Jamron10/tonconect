@@ -160,11 +160,11 @@ document.addEventListener('DOMContentLoaded', () => {    // --- Splash Screen Lo
         // Update nav buttons visually
         navBtns.forEach(btn => {
             if (btn.dataset.tab === tabId) {
-                btn.classList.add('text-cyan-400');
-                btn.classList.remove('text-slate-500');
+                btn.classList.add('text-cyan-400', 'bg-white/10', 'border-white/20');
+                btn.classList.remove('text-slate-500', 'bg-white/5', 'border-white/5');
             } else {
-                btn.classList.remove('text-cyan-400');
-                btn.classList.add('text-slate-500');
+                btn.classList.remove('text-cyan-400', 'bg-white/10', 'border-white/20');
+                btn.classList.add('text-slate-500', 'bg-white/5', 'border-white/5');
             }
         });
 
