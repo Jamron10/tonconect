@@ -7,6 +7,8 @@
     "subtitle": "Teleport terminal",
     "empty_title": "Кошелек не подключен",
     "empty_desc": "Для просмотра баланса и данных аккаунта подключите свой кошелек.",
+    "preview_features": "Возможности терминала",
+    "connect_to_use": "Подключите кошелек",
     "connect_btn": "Подключить кошелек",
     "wallet_status": "Статус",
     "connected": "Подключен",
@@ -90,6 +92,13 @@
     "theme_light": "☀️ Светлая",
     "theme_neon": "🔮 Неоновая",
     "notifications": "Уведомления",
-    "qr_rub_bot_btn": "Открыть @karta_robot"
+    "qr_rub_bot_btn": "Открыть @karta_robot",
+    "support_title": "Служба поддержки",
+    "support_status": "Администратор онлайн",
+    "support_greeting": "Здравствуйте! Напишите ваш вопрос, и мы перенаправим его нашему администратору.",
+    "support_input_placeholder": "Напишите ваш вопрос...",
+    "support_call_human": "Открыть чат с поддержкой напрямую",
+    "support_typing": "печатает...",
+    "support_redirecting": "Перенаправляем ваш вопрос администратору..."
   }
 }
