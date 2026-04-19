@@ -104,22 +104,31 @@
             
             <h3 class="text-center text-slate-400 font-medium text-xs sm:text-sm mb-1 uppercase tracking-widest z-10" data-i18n="app.preview_features">Возможности терминала</h3>
             
-            <div class="flex items-center gap-2 sm:gap-3 z-10 w-full justify-between pointer-events-none opacity-60 grayscale-[50%] blur-[1px] transition-all duration-300 group-hover:blur-sm group-hover:grayscale">
-                <div class="flex-none w-[80px] sm:w-[96px] bg-white/10 text-white py-2 rounded-[14px] font-bold text-[10px] sm:text-[11px] border border-white/10 flex flex-col justify-center items-center gap-1.5 shadow-md">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m0 0l-6-6m6 6l6-6"></path></svg>
-                    <span data-i18n="app.receive_btn">Пополнить</span>
+            <!-- Restored Icon Buttons for Preview -->
+            <div class="flex items-center gap-2 sm:gap-3 z-10 w-full justify-between pointer-events-none opacity-60 grayscale-[50%] blur-[1px] transition-all duration-300 group-hover:blur-sm group-hover:grayscale px-1">
+                <div class="flex flex-col items-center gap-2 flex-1">
+                    <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-[1.25rem] bg-white/10 text-white flex items-center justify-center border border-white/10 shadow-lg">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m0 0l-6-6m6 6l6-6"></path></svg>
+                    </div>
+                    <span class="text-[10px] sm:text-xs font-bold text-slate-300 tracking-wide" data-i18n="app.receive_btn">Пополнить</span>
                 </div>
-                <div class="flex-1 bg-gradient-to-r from-cyan-500 to-blue-600 text-white py-3.5 px-2 rounded-2xl font-extrabold text-sm sm:text-base flex flex-col sm:flex-row justify-center items-center gap-2 shadow-[0_0_20px_rgba(6,182,212,0.4)] mx-1">
-                    <svg class="w-6 h-6 opacity-90" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h2v2h-2zM18 14h2v2h-2zM14 18h2v2h-2zM18 18h2v2h-2z"></path></svg>
-                    <span data-i18n="app.qr_rub_btn" class="whitespace-nowrap sm:whitespace-normal leading-tight text-center">QR оплата в RUB</span>
+                
+                <div class="flex flex-col items-center gap-2 flex-1">
+                    <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-[1.25rem] bg-gradient-to-tr from-cyan-500 to-blue-600 text-white flex items-center justify-center shadow-[0_0_20px_rgba(6,182,212,0.4)]">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h2v2h-2zM18 14h2v2h-2zM14 18h2v2h-2zM18 18h2v2h-2z"></path></svg>
+                    </div>
+                    <span class="text-[10px] sm:text-xs font-bold text-cyan-400 tracking-wide" data-i18n="app.qr_pay_short">QR оплата</span>
                 </div>
-                <div class="flex-none w-[80px] sm:w-[96px] bg-white/10 text-white py-2 rounded-[14px] font-bold text-[10px] sm:text-[11px] border border-white/10 flex flex-col justify-center items-center gap-1.5 shadow-md">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 20V4m0 0l-6 6m6-6l6 6"></path></svg>
-                    <span data-i18n="app.send_btn">Отправить</span>
+
+                <div class="flex flex-col items-center gap-2 flex-1">
+                    <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-[1.25rem] bg-white/10 text-white flex items-center justify-center border border-white/10 shadow-lg">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 20V4m0 0l-6 6m6-6l6 6"></path></svg>
+                    </div>
+                    <span class="text-[10px] sm:text-xs font-bold text-slate-300 tracking-wide" data-i18n="app.send_btn">Отправить</span>
                 </div>
             </div>
             
-            <div class="flex flex-col sm:flex-row gap-2.5 z-10 pointer-events-none opacity-60 grayscale-[50%] blur-[1px] transition-all duration-300 group-hover:blur-sm group-hover:grayscale">
+            <div class="flex flex-col sm:flex-row gap-2.5 z-10 pointer-events-none opacity-60 grayscale-[50%] blur-[1px] transition-all duration-300 group-hover:blur-sm group-hover:grayscale mt-2">
                 <div class="w-full sm:flex-1 bg-[#2AABEE]/10 text-[#2AABEE] py-3 px-4 rounded-2xl font-bold text-xs sm:text-sm border border-[#2AABEE]/30 shadow-[0_0_15px_rgba(42,171,238,0.1)] flex items-center gap-3">
                     <span class="text-2xl drop-shadow-md shrink-0">⭐</span>
                     <span data-i18n="app.stars_rub_btn" class="leading-snug whitespace-normal break-words text-left w-full">Купить/продать или оплатить Telegram звëздами как за RUB</span>
@@ -138,11 +147,11 @@
         
         <!-- ================= TAB: MAIN ================= -->
         <div data-tab-section="main" class="flex flex-col gap-4 w-full">
-            <!-- Main Wallet Card -->
+            <!-- Main Wallet Card (Now includes original Action Buttons) -->
             <section id="wallet-info-section" class="w-full rounded-[2.5rem] border border-white/10 bg-white/[0.03] p-4 sm:p-5 shadow-[0_8px_32px_0_rgba(0,0,0,0.5)] backdrop-blur-2xl relative overflow-hidden group">
                 <div class="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none"></div>
 
-                <div id="wallet-info-card" class="flex flex-col space-y-3 relative z-10">
+                <div id="wallet-info-card" class="flex flex-col space-y-4 relative z-10">
                     <!-- Top Row: Status & Address -->
                     <div class="flex items-center justify-between">
                         <div class="flex items-center gap-2">
@@ -169,43 +178,49 @@
                         </div>
                         <div id="fiat-balance" class="z-10 mt-1 flex items-center gap-2"></div>
                     </div>
+
+                    <!-- Restored Original Icon Buttons Under Balance -->
+                    <div class="flex items-center gap-2 z-10 w-full justify-between pt-1 px-1 sm:px-3">
+                        <button id="btn-receive" class="flex flex-col items-center gap-2 group hover:-translate-y-1 transition-transform active:scale-95 flex-1">
+                            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-[1.25rem] bg-white/10 text-white flex items-center justify-center border border-white/10 shadow-lg group-hover:bg-white/20 transition-all">
+                                <svg class="w-6 h-6 sm:w-7 sm:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m0 0l-6-6m6 6l6-6"></path></svg>
+                            </div>
+                            <span class="text-[10px] sm:text-xs font-bold text-slate-300 group-hover:text-white transition-colors tracking-wide" data-i18n="app.receive_btn">Пополнить</span>
+                        </button>
+                        
+                        <button id="btn-qr-rub" class="flex flex-col items-center gap-2 group hover:-translate-y-1 transition-transform active:scale-95 flex-1">
+                            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-[1.25rem] bg-gradient-to-tr from-cyan-500 to-blue-600 text-white flex items-center justify-center shadow-[0_0_20px_rgba(6,182,212,0.4)] group-hover:shadow-[0_0_30px_rgba(6,182,212,0.6)] group-hover:scale-105 transition-all">
+                                <svg class="w-6 h-6 sm:w-7 sm:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h2v2h-2zM18 14h2v2h-2zM14 18h2v2h-2zM18 18h2v2h-2z"></path></svg>
+                            </div>
+                            <span class="text-[10px] sm:text-xs font-bold text-cyan-400 group-hover:text-cyan-300 transition-colors tracking-wide" data-i18n="app.qr_pay_short">QR оплата</span>
+                        </button>
+
+                        <button id="btn-send" class="flex flex-col items-center gap-2 group hover:-translate-y-1 transition-transform active:scale-95 flex-1">
+                            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-[1.25rem] bg-white/10 text-white flex items-center justify-center border border-white/10 shadow-lg group-hover:bg-white/20 transition-all">
+                                <svg class="w-6 h-6 sm:w-7 sm:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 20V4m0 0l-6 6m6-6l6 6"></path></svg>
+                            </div>
+                            <span class="text-[10px] sm:text-xs font-bold text-slate-300 group-hover:text-white transition-colors tracking-wide" data-i18n="app.send_btn">Отправить</span>
+                        </button>
+                    </div>
                 </div>
             </section>
 
-            <!-- Action Buttons -->
-            <section class="w-full bg-white/[0.03] backdrop-blur-2xl p-4 sm:p-5 rounded-[2.5rem] border border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.5)] flex flex-col gap-3 relative overflow-hidden">
+            <!-- Secondary Action Buttons -->
+            <section class="w-full bg-white/[0.03] backdrop-blur-2xl p-4 sm:p-5 rounded-[2.5rem] border border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.5)] flex flex-col sm:flex-row gap-2.5 relative overflow-hidden">
                 <div class="absolute inset-0 bg-gradient-to-t from-cyan-500/5 to-transparent pointer-events-none z-0"></div>
+                <button id="btn-stars-rub" class="w-full sm:flex-1 bg-[#2AABEE]/10 hover:bg-[#2AABEE]/20 text-[#2AABEE] hover:text-white py-3 px-4 rounded-2xl font-bold text-xs sm:text-sm transition-all border border-[#2AABEE]/30 hover:border-[#2AABEE]/50 shadow-[0_0_15px_rgba(42,171,238,0.1)] flex items-center gap-3 hover:-translate-y-0.5 active:scale-95 z-10">
+                    <span class="text-2xl drop-shadow-md shrink-0">⭐</span>
+                    <span data-i18n="app.stars_rub_btn" class="leading-snug whitespace-normal break-words text-left w-full">Купить/продать или оплатить Telegram звëздами как за RUB</span>
+                </button>
                 
-                <div class="flex items-center gap-2 sm:gap-3 z-10 w-full justify-between">
-                    <button id="btn-receive" class="flex-none w-[80px] sm:w-[96px] bg-white/10 hover:bg-white/20 text-white py-2 rounded-[14px] font-bold text-[10px] sm:text-[11px] transition-all border border-white/10 hover:border-white/30 shadow-md flex flex-col justify-center items-center gap-1.5 hover:-translate-y-0.5 active:scale-95">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m0 0l-6-6m6 6l6-6"></path></svg>
-                        <span data-i18n="app.receive_btn">Пополнить</span>
-                    </button>
-                    <button id="btn-qr-rub" class="flex-1 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white py-3.5 px-2 rounded-2xl font-extrabold text-sm sm:text-base transition-all shadow-[0_0_20px_rgba(6,182,212,0.4)] hover:shadow-[0_0_30px_rgba(6,182,212,0.6)] flex flex-col sm:flex-row justify-center items-center gap-2 hover:-translate-y-0.5 active:scale-95 mx-1">
-                        <svg class="w-6 h-6 opacity-90" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h2v2h-2zM18 14h2v2h-2zM14 18h2v2h-2zM18 18h2v2h-2z"></path></svg>
-                        <span data-i18n="app.qr_rub_btn" class="whitespace-nowrap sm:whitespace-normal leading-tight text-center">QR оплата в RUB</span>
-                    </button>
-                    <button id="btn-send" class="flex-none w-[80px] sm:w-[96px] bg-white/10 hover:bg-white/20 text-white py-2 rounded-[14px] font-bold text-[10px] sm:text-[11px] transition-all border border-white/10 hover:border-white/30 shadow-md flex flex-col justify-center items-center gap-1.5 hover:-translate-y-0.5 active:scale-95">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 20V4m0 0l-6 6m6-6l6 6"></path></svg>
-                        <span data-i18n="app.send_btn">Отправить</span>
-                    </button>
-                </div>
-                
-                <div class="flex flex-col sm:flex-row gap-2.5 z-10">
-                    <button id="btn-stars-rub" class="w-full sm:flex-1 bg-[#2AABEE]/10 hover:bg-[#2AABEE]/20 text-[#2AABEE] hover:text-white py-3 px-4 rounded-2xl font-bold text-xs sm:text-sm transition-all border border-[#2AABEE]/30 hover:border-[#2AABEE]/50 shadow-[0_0_15px_rgba(42,171,238,0.1)] flex items-center gap-3 hover:-translate-y-0.5 active:scale-95">
-                        <span class="text-2xl drop-shadow-md shrink-0">⭐</span>
-                        <span data-i18n="app.stars_rub_btn" class="leading-snug whitespace-normal break-words text-left w-full">Купить/продать или оплатить Telegram звëздами как за RUB</span>
-                    </button>
-                    
-                    <a href="https://t.me/efir_robot/modeli" target="_blank" rel="noopener noreferrer" class="twa-link w-full sm:w-1/3 bg-red-500/10 hover:bg-red-500/20 text-red-400 hover:text-white py-3 px-3 rounded-2xl font-bold text-xs sm:text-sm transition-all border border-red-500/30 hover:border-red-500/50 shadow-[0_0_15px_rgba(239,68,68,0.15)] flex justify-center items-center gap-2 hover:-translate-y-0.5 active:scale-95 relative overflow-hidden group">
-                        <span class="absolute right-3 top-1/2 -translate-y-1/2 flex h-2 w-2">
-                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                            <span class="relative inline-flex rounded-full h-2 w-2 bg-red-500 shadow-[0_0_8px_rgba(239,68,68,1)]"></span>
-                        </span>
-                        <span class="text-lg drop-shadow-md animate-pulse">🎥</span>
-                        <span data-i18n="app.efir_btn" class="tracking-wide">Эфир</span>
-                    </a>
-                </div>
+                <a href="https://t.me/efir_robot/modeli" target="_blank" rel="noopener noreferrer" class="twa-link w-full sm:w-1/3 bg-red-500/10 hover:bg-red-500/20 text-red-400 hover:text-white py-3 px-3 rounded-2xl font-bold text-xs sm:text-sm transition-all border border-red-500/30 hover:border-red-500/50 shadow-[0_0_15px_rgba(239,68,68,0.15)] flex justify-center items-center gap-2 hover:-translate-y-0.5 active:scale-95 relative overflow-hidden group z-10">
+                    <span class="absolute right-3 top-1/2 -translate-y-1/2 flex h-2 w-2">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-red-500 shadow-[0_0_8px_rgba(239,68,68,1)]"></span>
+                    </span>
+                    <span class="text-lg drop-shadow-md animate-pulse">🎥</span>
+                    <span data-i18n="app.efir_btn" class="tracking-wide">Эфир</span>
+                </a>
             </section>
 
         <!-- ================= TAB: JETTONS ================= -->
@@ -306,7 +321,7 @@
        <!-- ================= TAB: SERVICES ================= -->
         <div data-tab-section="services" class="hidden w-full">
             <section class="w-full rounded-[2.5rem] border border-white/10 bg-white/[0.03] p-4 sm:p-5 shadow-[0_8px_32px_0_rgba(0,0,0,0.5)] backdrop-blur-2xl relative overflow-hidden">
-                <h3 class="text-2xl font-extrabold text-white tracking-tight mb-4" data-i18n="app.tab_services">Услуги и сервисы</h3>
+                <h3 class="text-2xl font-extrabold text-white tracking-tight mb-4" data-i18n="app.tab_services">Сервисы</h3>
                 
                 <div class="flex flex-col gap-2.5 z-10">
                     <a href="https://t.me/MOHETKA_BOT" target="_blank" rel="noopener noreferrer" class="bg-white/5 hover:bg-white/10 text-white py-3.5 px-4 rounded-2xl font-semibold text-sm sm:text-base transition-all border border-white/10 hover:border-white/30 flex items-center justify-start text-left hover:-translate-y-0.5 active:scale-95 shadow-md">
@@ -399,7 +414,7 @@
 
 <button class="nav-btn flex flex-col items-center justify-center gap-1 text-slate-500 hover:text-cyan-400 bg-white/5 hover:bg-white/10 rounded-[14px] py-1.5 px-0.5 flex-1 transition-all active:scale-95 border border-white/5 h-[56px]" data-tab="services">
 <span class="text-lg sm:text-xl drop-shadow-md leading-none">🛍️</span>
-<span class="text-[7px] sm:text-[9px] font-bold tracking-wider uppercase text-center leading-tight truncate w-full px-0.5" data-i18n="app.tab_services">Услуги и сервисы</span>
+<span class="text-[7px] sm:text-[9px] font-bold tracking-wider uppercase text-center leading-tight truncate w-full px-0.5" data-i18n="app.tab_services">Сервисы</span>
 </button>
 <button class="nav-btn flex flex-col items-center justify-center gap-1 text-slate-500 hover:text-cyan-400 bg-white/5 hover:bg-white/10 rounded-[14px] py-1.5 px-0.5 flex-1 transition-all active:scale-95 border border-white/5 h-[56px]" data-tab="nft_mail">
 <span class="text-lg sm:text-xl drop-shadow-md leading-none">📩</span>
