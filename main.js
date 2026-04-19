@@ -570,6 +570,25 @@ document.addEventListener('DOMContentLoaded', () => {    // --- Splash Screen Lo
         });
     });
 
+    const mirPayBtn = document.getElementById('mir-pay-btn');
+    if (mirPayBtn) {
+        mirPayBtn.addEventListener('click', () => {
+            closeModals();
+            const fallbackUrl = "https://pay.mironline.ru/help/";
+            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+            if (/android/i.test(userAgent)) {
+                const intentUrl = "intent://#Intent;package=ru.nspk.mirpay;S.browser_fallback_url=" + encodeURIComponent(fallbackUrl) + ";end;";
+                window.location.href = intentUrl;
+            } else {
+                if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.openLink) {
+                    window.Telegram.WebApp.openLink(fallbackUrl);
+                } else {
+                    window.open(fallbackUrl, '_blank', 'noopener,noreferrer');
+                }
+            }
+        });
+    }
+
     document.querySelectorAll('.qr-opt-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             const soonMsg = window.miniappI18n ? window.miniappI18n.t('app.soon') : 'В разработке';
