@@ -141,6 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {    // --- Splash Screen Lo
     const btnReceive = document.getElementById('btn-receive');
     const btnSend = document.getElementById('btn-send');
     const btnQrRub = document.getElementById('btn-qr-rub');
+    const navQrBtn = document.getElementById('nav-qr-btn');
     const btnStarsRub = document.getElementById('btn-stars-rub');
     const qrcodeContainer = document.getElementById('qrcode');
     const receiveMemo = document.getElementById('receive-memo');
@@ -532,6 +533,16 @@ document.addEventListener('DOMContentLoaded', () => {    // --- Splash Screen Lo
 
     if (btnQrRub) {
         btnQrRub.addEventListener('click', () => {
+            if (modalQrRub) openModal(modalQrRub);
+        });
+    }
+
+    if (navQrBtn) {
+        navQrBtn.addEventListener('click', () => {
+            if (!currentFriendlyAddress) {
+                if (typeof tonConnectUI !== 'undefined') tonConnectUI.openModal();
+                return;
+            }
             if (modalQrRub) openModal(modalQrRub);
         });
     }
