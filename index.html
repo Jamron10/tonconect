@@ -307,27 +307,49 @@
             </section>
         </div>
 
+        <!-- ================= TAB: SERVICES ================= -->
+        <div data-tab-section="services" class="hidden w-full">
+            <section class="w-full rounded-[2.5rem] border border-white/10 bg-white/[0.03] p-6 sm:p-8 shadow-[0_8px_32px_0_rgba(0,0,0,0.5)] backdrop-blur-2xl relative overflow-hidden flex flex-col items-center justify-center text-center">
+                <span class="text-5xl mb-4">🛍️</span>
+                <h3 class="text-2xl font-extrabold text-white tracking-tight mb-2">Услуги и сервисы</h3>
+                <p class="text-slate-400 text-sm" data-i18n="app.soon">В разработке</p>
+            </section>
+        </div>
+
+        <!-- ================= TAB: NFT MAIL ================= -->
+        <div data-tab-section="nft_mail" class="hidden w-full">
+            <section class="w-full rounded-[2.5rem] border border-white/10 bg-white/[0.03] p-6 sm:p-8 shadow-[0_8px_32px_0_rgba(0,0,0,0.5)] backdrop-blur-2xl relative overflow-hidden flex flex-col items-center justify-center text-center">
+                <span class="text-5xl mb-4">📩</span>
+                <h3 class="text-2xl font-extrabold text-white tracking-tight mb-2">NFT почта</h3>
+                <p class="text-slate-400 text-sm" data-i18n="app.soon">В разработке</p>
+            </section>
+        </div>
+
     </div>
   </div> <!-- End of app container -->
 
     <!-- Bottom Navigation Bar -->
     <nav id="bottom-nav" class="fixed bottom-0 left-0 right-0 bg-black/80 backdrop-blur-2xl border-t border-white/10 z-50  pb-safe shadow-[0_-10px_30px_rgba(0,0,0,0.5)]">
-        <div class="max-w-2xl mx-auto px-2 py-3 flex justify-between sm:justify-around items-center">
+        <div class="max-w-2xl mx-auto px-1 py-3 flex justify-between items-start gap-1">
             <button class="nav-btn flex flex-col items-center gap-1.5 text-cyan-400 flex-1 transition-transform active:scale-95" data-tab="main">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
-                <span class="text-[10px] font-bold tracking-wider uppercase" data-i18n="app.tab_main">Главная</span>
-            </button>
-            <button class="nav-btn flex flex-col items-center gap-1.5 text-slate-500 hover:text-cyan-400 flex-1 transition-colors active:scale-95" data-tab="jettons">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                <span class="text-[10px] font-bold tracking-wider uppercase" data-i18n="app.tab_jettons">Токены</span>
+                <span class="text-xl sm:text-2xl drop-shadow-md">👛</span>
+                <span class="text-[8px] sm:text-[10px] font-bold tracking-wider uppercase text-center leading-tight" data-i18n="app.tab_wallets">Кошельки</span>
             </button>
             <button class="nav-btn flex flex-col items-center gap-1.5 text-slate-500 hover:text-cyan-400 flex-1 transition-colors active:scale-95" data-tab="nfts">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
-                <span class="text-[10px] font-bold tracking-wider uppercase" data-i18n="app.tab_nfts">NFT</span>
+                <span class="text-xl sm:text-2xl drop-shadow-md">💳</span>
+                <span class="text-[8px] sm:text-[10px] font-bold tracking-wider uppercase text-center leading-tight whitespace-nowrap" data-i18n="app.tab_nft_cards">NFT и карты</span>
             </button>
-            <button class="nav-btn flex flex-col items-center gap-1.5 text-slate-500 hover:text-cyan-400 flex-1 transition-colors active:scale-95" data-tab="history">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                <span class="text-[10px] font-bold tracking-wider uppercase" data-i18n="app.tab_history">История</span>
+            <button id="nav-qr-btn" class="flex flex-col items-center gap-1.5 text-slate-500 hover:text-cyan-400 flex-1 transition-colors active:scale-95 pt-0">
+                <span class="text-2xl sm:text-3xl drop-shadow-md">📷</span>
+                <span class="text-[8px] sm:text-[10px] font-bold tracking-wider uppercase text-center leading-tight whitespace-nowrap" data-i18n="app.tab_qr">[ - ] Оплатить кьюар</span>
+            </button>
+            <button class="nav-btn flex flex-col items-center gap-1.5 text-slate-500 hover:text-cyan-400 flex-1 transition-colors active:scale-95" data-tab="services">
+                <span class="text-xl sm:text-2xl drop-shadow-md">🛍️</span>
+                <span class="text-[8px] sm:text-[10px] font-bold tracking-wider uppercase text-center leading-tight whitespace-nowrap" data-i18n="app.tab_services">Услуги и сервисы</span>
+            </button>
+            <button class="nav-btn flex flex-col items-center gap-1.5 text-slate-500 hover:text-cyan-400 flex-1 transition-colors active:scale-95" data-tab="nft_mail">
+                <span class="text-xl sm:text-2xl drop-shadow-md">📩</span>
+                <span class="text-[8px] sm:text-[10px] font-bold tracking-wider uppercase text-center leading-tight whitespace-nowrap" data-i18n="app.tab_nft_mail">NFT почта</span>
             </button>
         </div>
     </nav>
