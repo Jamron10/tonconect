@@ -76,7 +76,9 @@
     "send_opt_crypto": "🦋 Crypto Bot | 🚀 xRocket",
     "send_opt_other": "🪙 Другим способом",
     "soon": "В разработке",
-    "qr_rub_btn": "[ - ] QR в РУБ",
+    "nft_mail_login": "🔌 Войти в почту",
+    "nft_mail_market": "🛒 Выпуск NFT почты",
+    "qr_rub_btn": "QR оплата в RUB",
     "qr_rub_title": "QR в РУБ",
     "qr_rub_desc": "💳 Для оплаты в RUB за ваши TON нажмите команду /karta или используйте инлайн команду @karta_robot сумма RUB",
     "qr_rub_desc_new": "Выберите с какого сервиса вы хотите оплатить покупку сразу криптовалютой как за RUB:",
@@ -104,6 +106,21 @@
     "support_input_placeholder": "Напишите ваш вопрос...",
     "support_call_human": "Открыть чат с поддержкой напрямую",
     "support_typing": "печатает...",
-    "support_redirecting": "Перенаправляем ваш вопрос администратору..."
+    "support_redirecting": "Перенаправляем ваш вопрос администратору...",
+    "svc_coins": "👛 Покупка/продажа всех монет",
+    "svc_efir": "🎙Стримы Efir • Modeli.vip 🎥",
+    "svc_nft_rent": "🧸 Аренда NFT и podarki.vip",
+    "svc_domains": "💎 Аренда юзов/доменов rents.vip",
+    "svc_stars": "⭐ Покупка/продажа CTAPC.VIP",
+    "svc_altyn": "🌐 USDT/RUB Карта МИР от Altyn",
+    "svc_antarctic": "🐧 Antarctic Wallet ❄",
+    "svc_nomera": "🎱 Аккаунты/красивые nomera.vip",
+    "svc_sdelka": "💬 Безопасная гарант sdelka.vip",
+    "svc_kazik": "🎲 Игровые kazik.vip комнаты",
+    "svc_verif": "✅ Верификации verif.vip ВСЕГО",
+    "svc_nft_mail": "📩 Telegram NFT почта",
+    "svc_ton_names": "🎱 TON Names (VIP domain)",
+    "svc_vpn": "👑 Анонимный VIP VPN",
+    "svc_web_dev": "🌐 Разработка веб-приложений"
   }
 }
