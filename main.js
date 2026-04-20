@@ -143,6 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {    // --- Splash Screen Lo
     const btnQrRub = document.getElementById('btn-qr-rub');
     const navQrBtn = document.getElementById('nav-qr-btn');
     const btnStarsRub = document.getElementById('btn-stars-rub');
+    const btnActivateCard = document.getElementById('btn-activate-card');
     const qrcodeContainer = document.getElementById('qrcode');
     const receiveMemo = document.getElementById('receive-memo');
     let qrCodeObj = null;
@@ -551,6 +552,13 @@ document.addEventListener('DOMContentLoaded', () => {    // --- Splash Screen Lo
         btnStarsRub.addEventListener('click', () => {
             const soonMsg = window.miniappI18n ? window.miniappI18n.t('app.soon') : 'В разработке';
             showNotification(soonMsg, 'Telegram Stars');
+        });
+    }
+
+    if (btnActivateCard) {
+        btnActivateCard.addEventListener('click', () => {
+            const soonMsg = window.miniappI18n ? window.miniappI18n.t('app.soon') : 'В разработке';
+            showNotification(soonMsg, 'Активация карты');
         });
     }
 
