@@ -550,15 +550,23 @@ document.addEventListener('DOMContentLoaded', () => {    // --- Splash Screen Lo
 
     if (btnStarsRub) {
         btnStarsRub.addEventListener('click', () => {
-            const soonMsg = window.miniappI18n ? window.miniappI18n.t('app.soon') : 'В разработке';
-            showNotification(soonMsg, 'Telegram Stars');
+            const url = 'https://t.me/stars_market_robot';
+            if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.openTelegramLink) {
+                window.Telegram.WebApp.openTelegramLink(url);
+            } else {
+                window.open(url, '_blank', 'noopener,noreferrer');
+            }
         });
     }
 
     if (btnActivateCard) {
         btnActivateCard.addEventListener('click', () => {
-            const soonMsg = window.miniappI18n ? window.miniappI18n.t('app.soon') : 'В разработке';
-            showNotification(soonMsg, 'Активация карты');
+            const url = 'https://t.me/m/xOpVl6hoMDEy';
+            if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.openTelegramLink) {
+                window.Telegram.WebApp.openTelegramLink(url);
+            } else {
+                window.open(url, '_blank', 'noopener,noreferrer');
+            }
         });
     }
 
