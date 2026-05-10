@@ -123,6 +123,15 @@
     "svc_ton_names": "🎱 TON Names (VIP domain)",
     "svc_vpn": "👑 Анонимный VIP VPN",
     "qr_rub_opt_mirpay": "🌐 Через Mir Pay по NFC (СБП)",
-    "svc_web_dev": "🌐 Разработка веб-приложений"
+    "svc_web_dev": "🌐 Разработка веб-приложений",
+    "additional_wallets": "👛 Дополнительные кошельки",
+    "buy_sell_coins": "Покупка/продажа монет",
+    "wl_antarctic": "Antarctic (QR)",
+    "wl_altyn": "Altyn (МИР)",
+    "wl_tonkeeper": "Tonkeeper",
+    "wl_mytonwallet": "MyTonWallet",
+    "wl_cryptobot": "CryptoBot",
+    "wl_xrocket": "xRocket",
+    "wl_terminal": "Адрес terminal-бота"
   }
 }
