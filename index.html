@@ -50,7 +50,7 @@
   <div id="app" class="mx-auto w-full max-w-2xl px-4 sm:px-6 relative z-10 flex flex-col gap-4">
     
     <!-- Top Bar -->
-    <header class="flex items-center justify-between gap-2 mb-1 pb-2 border-b border-white/5 relative w-full">
+    <header class="flex items-center justify-between gap-2 mb-5 pb-3 border-b border-white/5 relative w-full overflow-visible">
         <div class="flex items-center gap-3 group shrink-0">
             <button id="profile-btn" class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-tr from-cyan-500 to-blue-600 p-[2px] shadow-[0_0_30px_rgba(6,182,212,0.4)] shrink-0 transform transition-transform duration-500 hover:scale-110 hover:rotate-3 relative overflow-hidden flex items-center justify-center active:scale-95 focus:outline-none cursor-pointer">
                 <div class="absolute inset-0 bg-black/20 z-0"></div>
@@ -66,8 +66,8 @@
             </div>
         </div>
         
-        <!-- Right group: Efir button + TON Connect root + Beta badge -->
-        <div class="flex items-center gap-2 sm:gap-3 shrink-0 z-10 relative">
+        <!-- Right group: Efir button + TON Connect root -->
+        <div class="flex items-center gap-2 sm:gap-3 min-w-0 z-10 relative">
             <a href="https://t.me/efir_robot/modeli" target="_blank" rel="noopener noreferrer" class="twa-link w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-red-500/10 border border-red-500/30 flex items-center justify-center relative hover:bg-red-500/20 transition-all shadow-[0_0_15px_rgba(239,68,68,0.2)] hover:scale-105 active:scale-95 group shrink-0">
                 <span class="absolute -top-0.5 -right-0.5 flex h-2.5 w-2.5">
                     <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
@@ -75,14 +75,13 @@
                 </span>
                 <span class="text-lg sm:text-xl group-hover:animate-pulse drop-shadow-md">🎥</span>
             </a>
-            <div class="flex flex-col items-end gap-1.5 shrink-0 z-10 relative">
-                <div id="ton-connect" class="hover:scale-105 transition-transform duration-300 origin-right"></div>
-                <button id="beta-badge-btn" class="text-[9px] sm:text-[10px] bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 px-2 py-0.5 rounded flex items-center gap-1 font-bold uppercase tracking-widest transition-colors shadow-[0_0_10px_rgba(6,182,212,0.15)] active:scale-95" title="Beta Information">
-                    <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
-                    <span data-i18n="app.beta_badge">BETA</span>
-                </button>
-            </div>
+            <div id="ton-connect" class="hover:scale-105 transition-transform duration-300 origin-center shrink-0"></div>
         </div>
+        <!-- Beta badge - absolutely positioned so it never gets hidden -->
+        <button id="beta-badge-btn" class="absolute -bottom-1 right-0 text-[8px] sm:text-[10px] bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 px-1.5 py-0.5 rounded flex items-center gap-1 font-bold uppercase tracking-widest transition-colors shadow-[0_0_10px_rgba(6,182,212,0.15)] active:scale-95 whitespace-nowrap" title="Beta Information">
+            <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
+            <span data-i18n="app.beta_badge">BETA</span>
+        </button>
     </header>
 
     <!-- Empty State -->
@@ -137,20 +136,59 @@
                 </div>
             </div>
             
-            <!-- Stars full width under icons -->
-            <div class="w-full bg-[#2AABEE]/10 text-[#2AABEE] py-2.5 px-4 rounded-[1.25rem] font-bold text-xs sm:text-sm border border-[#2AABEE]/30 shadow-[0_0_15px_rgba(42,171,238,0.1)] flex items-center gap-3 z-10 pointer-events-none opacity-60 grayscale-[50%] blur-[1px] transition-all duration-300 group-hover:blur-sm group-hover:grayscale mt-2">
-                <span class="text-xl drop-shadow-md shrink-0">⭐</span>
+            <!-- Additional Wallets preview -->
+            <div class="text-slate-400 font-semibold text-[10px] sm:text-xs uppercase tracking-widest z-10 pointer-events-none opacity-60 mt-2" data-i18n="app.additional_wallets">👛 Дополнительные кошельки</div>
+
+            <div class="grid grid-cols-2 gap-1.5 z-10 pointer-events-none opacity-60 grayscale-[50%] blur-[1px]">
+                <div class="bg-white/5 text-white py-1.5 px-2 rounded-lg font-bold text-[10px] sm:text-[11px] border border-white/10 shadow-md flex items-center gap-1.5 justify-center">
+                    <span class="text-sm shrink-0">🐧</span>
+                    <span>Antarctic (QR)</span>
+                </div>
+                <div class="bg-white/5 text-white py-1.5 px-2 rounded-lg font-bold text-[10px] sm:text-[11px] border border-white/10 shadow-md flex items-center gap-1.5 justify-center">
+                    <span class="text-sm shrink-0">🌐</span>
+                    <span>Altyn (МИР)</span>
+                </div>
+                <div class="bg-white/5 text-white py-1.5 px-2 rounded-lg font-bold text-[10px] sm:text-[11px] border border-white/10 shadow-md flex items-center gap-1.5 justify-center">
+                    <span class="text-sm shrink-0">💎</span>
+                    <span>Tonkeeper</span>
+                </div>
+                <div class="bg-white/5 text-white py-1.5 px-2 rounded-lg font-bold text-[10px] sm:text-[11px] border border-white/10 shadow-md flex items-center gap-1.5 justify-center">
+                    <span class="text-sm shrink-0">💎</span>
+                    <span>MyTonWallet</span>
+                </div>
+                <div class="bg-white/5 text-white py-1.5 px-2 rounded-lg font-bold text-[10px] sm:text-[11px] border border-white/10 shadow-md flex items-center gap-1.5 justify-center">
+                    <span class="text-sm shrink-0">🦋</span>
+                    <span>CryptoBot</span>
+                </div>
+                <div class="bg-white/5 text-white py-1.5 px-2 rounded-lg font-bold text-[10px] sm:text-[11px] border border-white/10 shadow-md flex items-center gap-1.5 justify-center">
+                    <span class="text-sm shrink-0">🚀</span>
+                    <span>xRocket</span>
+                </div>
+            </div>
+
+            <div class="w-full bg-white/5 text-white py-1.5 px-2.5 rounded-lg font-bold text-[10px] sm:text-[11px] border border-white/10 shadow-md flex items-center justify-center gap-2 z-10 pointer-events-none opacity-60 grayscale-[50%] blur-[1px]">
+                <span class="text-sm shrink-0 font-mono">[/]</span>
+                <span>Адрес terminal-бота</span>
+            </div>
+
+            <div class="w-full bg-white/5 text-white py-1.5 px-2.5 rounded-lg font-bold text-[10px] sm:text-[11px] border border-white/10 shadow-md flex items-center gap-2 z-10 pointer-events-none opacity-60 grayscale-[50%] blur-[1px]">
+                <span class="text-sm shrink-0">🪙</span>
+                <span data-i18n="app.buy_sell_coins">Покупка/продажа монет</span>
+            </div>
+
+            <div class="w-full bg-[#2AABEE]/10 text-[#2AABEE] py-1.5 px-2.5 rounded-lg font-bold text-[10px] sm:text-[11px] border border-[#2AABEE]/30 shadow-[0_0_15px_rgba(42,171,238,0.1)] flex items-center gap-2 z-10 pointer-events-none opacity-60 grayscale-[50%] blur-[1px]">
+                <span class="text-sm shrink-0">⭐</span>
                 <span data-i18n="app.stars_rub_btn" class="leading-snug whitespace-normal break-words text-left">Купить/продать или оплатить Telegram звëздами как за RUB</span>
             </div>
             
-            <!-- Two buttons bottom menu preview -->
-            <div class="flex flex-col sm:flex-row gap-2.5 z-10 pointer-events-none opacity-60 grayscale-[50%] blur-[1px] transition-all duration-300 group-hover:blur-sm group-hover:grayscale mt-2">
-                <div class="w-full sm:flex-[1.2] bg-white/5 text-white py-3 px-3 rounded-2xl font-bold text-xs sm:text-sm border border-white/10 shadow-md flex justify-center items-center gap-2">
-                    <span class="text-lg drop-shadow-md">💳</span>
-                    <span class="tracking-wide">Выпустить пластиковую/NFT карту</span>
+            <!-- Two buttons bottom menu preview (smaller) -->
+            <div class="flex flex-col sm:flex-row gap-2 z-10 pointer-events-none opacity-60 grayscale-[50%] blur-[1px] transition-all duration-300 group-hover:blur-sm group-hover:grayscale mt-2">
+                <div class="w-full sm:flex-[1.2] bg-white/5 text-white py-2.5 px-3 rounded-xl font-bold text-[11px] sm:text-xs border border-white/10 shadow-md flex justify-center items-center gap-2">
+                    <span class="text-base drop-shadow-md">💳</span>
+                    <span class="tracking-wide">Выпустить карту</span>
                 </div>
-                <div class="w-full sm:flex-[0.8] bg-green-500/10 text-green-400 py-3 px-3 rounded-2xl font-bold text-xs sm:text-sm border border-green-500/30 shadow-md flex justify-center items-center gap-2">
-                    <span class="text-lg drop-shadow-md">✅</span>
+                <div class="w-full sm:flex-[0.8] bg-green-500/10 text-green-400 py-2.5 px-3 rounded-xl font-bold text-[11px] sm:text-xs border border-green-500/30 shadow-md flex justify-center items-center gap-2">
+                    <span class="text-base drop-shadow-md">✅</span>
                     <span class="tracking-wide">Активировать карту</span>
                 </div>
             </div>
@@ -167,31 +205,59 @@
                 <div class="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none"></div>
 
                 <div id="wallet-info-card" class="flex flex-col space-y-4 relative z-10">
-                    <!-- Top Row: Status & Address -->
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center gap-2">
-                            <span class="w-2.5 h-2.5 rounded-full bg-green-400 animate-pulse shadow-[0_0_10px_rgba(74,222,128,1)]"></span>
-                            <span class="text-slate-400 font-semibold tracking-wide uppercase text-sm" data-i18n="app.balance">Баланс</span>
-                        </div>
-                        
-                        <button id="copy-btn" class="flex items-center gap-2 bg-black/40 hover:bg-black/60 border border-white/5 hover:border-cyan-500/30 rounded-full py-1.5 px-3 transition-all duration-300 active:scale-95 group" title="Скопировать адрес">
-                            <span id="wallet-address" class="font-mono text-xs sm:text-sm text-slate-300 group-hover:text-white transition-colors truncate max-w-[120px] sm:max-w-[180px]">-</span>
-                            <svg class="w-4 h-4 text-slate-500 group-hover:text-cyan-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
-                        </button>
+                    <!-- Status -->
+                    <div class="flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-green-400 animate-pulse shadow-[0_0_10px_rgba(74,222,128,1)]"></span>
+                        <span class="text-slate-400 font-semibold tracking-wide uppercase text-sm" data-i18n="app.balance">Баланс</span>
                     </div>
 
-                    <!-- Balance Block -->
-                    <div class="bg-gradient-to-br from-cyan-600/10 via-blue-600/10 to-purple-600/10 rounded-[2rem] p-4 sm:p-5 border border-white/10 flex flex-col justify-end gap-2 shadow-[inset_0_0_40px_rgba(255,255,255,0.02)] relative overflow-hidden">
-                        <div class="absolute -right-10 -top-10 w-40 h-40 bg-cyan-500/20 rounded-full blur-3xl pointer-events-none"></div>
+                    <!-- Balance Card (Bank Card Style) -->
+                    <div class="relative rounded-2xl overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.4)]">
+                        <!-- Card gradient background -->
+                        <div class="absolute inset-0 bg-gradient-to-br from-[#0a1628] via-[#0d2847] to-[#1a0a3e] z-0"></div>
+                        <!-- Decorative circles -->
+                        <div class="absolute -right-8 -top-8 w-40 h-40 bg-cyan-500/15 rounded-full blur-2xl z-0"></div>
+                        <div class="absolute -left-6 -bottom-6 w-32 h-32 bg-purple-500/10 rounded-full blur-2xl z-0"></div>
+                        <!-- Shimmer line -->
+                        <div class="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-cyan-400/40 to-transparent z-0"></div>
                         
-                        <div class="flex items-baseline gap-2 sm:gap-3 z-10">
-                            <span id="wallet-balance" class="text-4xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-blue-400 to-purple-400 tracking-tighter drop-shadow-xl">-</span>
-                            <span class="text-cyan-400 text-lg sm:text-xl font-bold flex items-center gap-1 sm:gap-1.5 uppercase tracking-widest">
-                                <img src="https://i.yapx.ru/dOAJJ.jpg" alt="TON" class="w-5 h-5 sm:w-6 sm:h-6 rounded-full shadow-[0_0_10px_rgba(34,211,238,0.5)] object-cover">
-                                TON
-                            </span>
+                        <div class="relative z-10 p-3 sm:p-5 flex flex-col gap-2 sm:gap-3">
+                            <!-- Top row: chip + TON logo -->
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-2">
+                                    <!-- Chip icon -->
+                                    <div class="w-9 h-7 sm:w-10 sm:h-8 rounded-md bg-gradient-to-br from-amber-300/80 via-amber-400/60 to-amber-500/80 border border-amber-300/30 flex items-center justify-center shadow-[0_0_8px_rgba(251,191,36,0.3)]">
+                                        <svg class="w-5 h-3.5 sm:w-6 sm:h-4" viewBox="0 0 24 16" fill="none">
+                                            <rect x="1" y="1" width="22" height="14" rx="2" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
+                                            <line x1="8" y1="1" x2="8" y2="15" stroke="rgba(255,255,255,0.25)" stroke-width="0.75"/>
+                                            <line x1="16" y1="1" x2="16" y2="15" stroke="rgba(255,255,255,0.25)" stroke-width="0.75"/>
+                                            <line x1="1" y1="8" x2="23" y2="8" stroke="rgba(255,255,255,0.25)" stroke-width="0.75"/>
+                                        </svg>
+                                    </div>
+                                    <span class="text-cyan-400/70 text-[10px] sm:text-xs font-semibold uppercase tracking-widest" data-i18n="app.balance">Баланс</span>
+                                </div>
+                                <img src="https://i.yapx.ru/dOAJJ.jpg" alt="TON" class="w-8 h-8 sm:w-9 sm:h-9 rounded-full shadow-[0_0_12px_rgba(34,211,238,0.4)] object-cover border border-white/10">
+                            </div>
+                            
+                            <!-- Balance amount -->
+                            <div class="flex items-baseline gap-2">
+                                <span id="wallet-balance" class="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">-</span>
+                                <span class="text-cyan-400 text-base sm:text-lg font-bold uppercase tracking-widest">TON</span>
+                            </div>
+                            <div id="fiat-balance" class="flex items-center gap-2 -mt-1"></div>
+                            
+                            <!-- Card number style address -->
+                            <div class="flex items-center justify-between mt-0.5 pt-1.5 sm:pt-2 border-t border-white/5">
+                                <button id="copy-btn" class="flex items-center gap-2 text-left group" title="Скопировать адрес">
+                                    <span class="text-slate-500 text-[10px] font-mono tracking-[0.15em] group-hover:text-slate-300 transition-colors" id="wallet-address">•••• •••• •••• ••••</span>
+                                    <svg class="w-3.5 h-3.5 text-slate-600 group-hover:text-cyan-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                                </button>
+                                <span class="text-green-400 text-[10px] sm:text-xs font-semibold flex items-center gap-1.5">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse shadow-[0_0_6px_rgba(74,222,128,1)]"></span>
+                                    <span data-i18n="app.connected">Online</span>
+                                </span>
+                            </div>
                         </div>
-                        <div id="fiat-balance" class="z-10 mt-1 flex items-center gap-2"></div>
                     </div>
 
                     <!-- Restored Original Icon Buttons Under Balance -->
@@ -212,32 +278,71 @@
 
                         <button id="btn-send" class="flex flex-col items-center gap-2 group hover:-translate-y-1 transition-transform active:scale-95 flex-1">
                             <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-[1.25rem] bg-white/10 text-white flex items-center justify-center border border-white/10 shadow-lg group-hover:bg-white/20 transition-all">
-                                <svg class="w-6 h-6 sm:w-7 sm:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 20V4m0 0l-6-6m6-6l6 6"></path></svg>
+                                <svg class="w-6 h-6 sm:w-7 sm:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 20V4m0 0l-6 6m6-6l6 6"></path></svg>
                             </div>
                             <span class="text-[10px] sm:text-xs font-bold text-slate-300 group-hover:text-white transition-colors tracking-wide" data-i18n="app.send_btn">Отправить</span>
                         </button>
                     </div>
                     
-                    <!-- Stars Button directly under the action icons -->
-                    <button id="btn-stars-rub" class="w-full bg-[#2AABEE]/10 hover:bg-[#2AABEE]/20 text-[#2AABEE] hover:text-white py-2.5 px-4 rounded-[1.25rem] font-bold text-xs sm:text-sm transition-all border border-[#2AABEE]/30 hover:border-[#2AABEE]/50 shadow-[0_0_15px_rgba(42,171,238,0.1)] flex items-center justify-center sm:justify-start gap-3 hover:-translate-y-0.5 active:scale-95 z-10 relative overflow-hidden group/stars mt-1">
+                    <!-- Additional Wallets Section -->
+                    <div class="text-slate-400 font-semibold text-[10px] sm:text-xs uppercase tracking-widest z-10 mt-2" data-i18n="app.additional_wallets">👛 Дополнительные кошельки</div>
+
+                    <div class="grid grid-cols-2 gap-1.5 z-10">
+                        <a href="https://t.me/antarctic_wallet_bot/app?startapp=ref_4f3cfae0ce" target="_blank" rel="noopener noreferrer" class="twa-link bg-white/5 hover:bg-white/10 text-white py-1.5 px-2 rounded-lg font-bold text-[10px] sm:text-[11px] transition-all border border-white/10 hover:border-cyan-500/30 shadow-md flex items-center gap-1.5 hover:-translate-y-0.5 active:scale-95 justify-center">
+                            <span class="text-sm shrink-0">🐧</span>
+                            <span data-i18n="app.wl_antarctic">Antarctic (QR)</span>
+                        </a>
+                        <a href="https://t.me/karta_robot/mir" target="_blank" rel="noopener noreferrer" class="twa-link bg-white/5 hover:bg-white/10 text-white py-1.5 px-2 rounded-lg font-bold text-[10px] sm:text-[11px] transition-all border border-white/10 hover:border-cyan-500/30 shadow-md flex items-center gap-1.5 hover:-translate-y-0.5 active:scale-95 justify-center">
+                            <span class="text-sm shrink-0">🌐</span>
+                            <span data-i18n="app.wl_altyn">Altyn (МИР)</span>
+                        </a>
+                        <a href="https://app.tonkeeper.com/" target="_blank" rel="noopener noreferrer" class="twa-link bg-white/5 hover:bg-white/10 text-white py-1.5 px-2 rounded-lg font-bold text-[10px] sm:text-[11px] transition-all border border-white/10 hover:border-cyan-500/30 shadow-md flex items-center gap-1.5 hover:-translate-y-0.5 active:scale-95 justify-center">
+                            <span class="text-sm shrink-0">💎</span>
+                            <span data-i18n="app.wl_tonkeeper">Tonkeeper</span>
+                        </a>
+                        <a href="https://mytonwallet.io/" target="_blank" rel="noopener noreferrer" class="twa-link bg-white/5 hover:bg-white/10 text-white py-1.5 px-2 rounded-lg font-bold text-[10px] sm:text-[11px] transition-all border border-white/10 hover:border-cyan-500/30 shadow-md flex items-center gap-1.5 hover:-translate-y-0.5 active:scale-95 justify-center">
+                            <span class="text-sm shrink-0">💎</span>
+                            <span data-i18n="app.wl_mytonwallet">MyTonWallet</span>
+                        </a>
+                        <a href="https://t.me/CryptoBot" target="_blank" rel="noopener noreferrer" class="twa-link bg-white/5 hover:bg-white/10 text-white py-1.5 px-2 rounded-lg font-bold text-[10px] sm:text-[11px] transition-all border border-white/10 hover:border-cyan-500/30 shadow-md flex items-center gap-1.5 hover:-translate-y-0.5 active:scale-95 justify-center">
+                            <span class="text-sm shrink-0">🦋</span>
+                            <span data-i18n="app.wl_cryptobot">CryptoBot</span>
+                        </a>
+                        <a href="https://t.me/xRocket" target="_blank" rel="noopener noreferrer" class="twa-link bg-white/5 hover:bg-white/10 text-white py-1.5 px-2 rounded-lg font-bold text-[10px] sm:text-[11px] transition-all border border-white/10 hover:border-cyan-500/30 shadow-md flex items-center gap-1.5 hover:-translate-y-0.5 active:scale-95 justify-center">
+                            <span class="text-sm shrink-0">🚀</span>
+                            <span data-i18n="app.wl_xrocket">xRocket</span>
+                        </a>
+                    </div>
+
+                    <a href="https://t.me/karta_robot" target="_blank" rel="noopener noreferrer" class="twa-link w-full bg-white/5 hover:bg-white/10 text-white py-1.5 px-2.5 rounded-lg font-bold text-[10px] sm:text-[11px] transition-all border border-white/10 hover:border-cyan-500/30 shadow-md flex items-center justify-center gap-2 hover:-translate-y-0.5 active:scale-95 z-10">
+                        <span class="text-sm shrink-0 font-mono">[/]</span>
+                        <span data-i18n="app.wl_terminal">Адрес terminal-бота</span>
+                    </a>
+
+                    <a href="https://t.me/MOHETKA_BOT" target="_blank" rel="noopener noreferrer" class="twa-link w-full bg-white/5 hover:bg-white/10 text-white py-1.5 px-2.5 rounded-lg font-bold text-[10px] sm:text-[11px] transition-all border border-white/10 hover:border-cyan-500/30 shadow-md flex items-center gap-2 hover:-translate-y-0.5 active:scale-95 z-10">
+                        <span class="text-sm shrink-0">🪙</span>
+                        <span data-i18n="app.buy_sell_coins">Покупка/продажа монет</span>
+                    </a>
+
+                    <button id="btn-stars-rub" class="w-full bg-[#2AABEE]/10 hover:bg-[#2AABEE]/20 text-[#2AABEE] hover:text-white py-1.5 px-2.5 rounded-lg font-bold text-[10px] sm:text-[11px] transition-all border border-[#2AABEE]/30 hover:border-[#2AABEE]/50 shadow-[0_0_15px_rgba(42,171,238,0.1)] flex items-center justify-center gap-2 hover:-translate-y-0.5 active:scale-95 z-10 relative overflow-hidden group/stars">
                         <div class="absolute inset-0 bg-gradient-to-r from-[#2AABEE]/0 via-[#2AABEE]/10 to-[#2AABEE]/0 translate-x-[-100%] group-hover/stars:translate-x-[100%] transition-transform duration-1000"></div>
-                        <span class="text-xl sm:text-2xl drop-shadow-md shrink-0">⭐</span>
-                        <span data-i18n="app.stars_rub_btn" class="leading-snug whitespace-normal break-words text-left sm:text-center w-full max-w-[280px] sm:max-w-none">Купить/продать или оплатить Telegram звëздами как за RUB</span>
+                        <span class="text-sm shrink-0">⭐</span>
+                        <span data-i18n="app.stars_rub_btn" class="leading-snug whitespace-normal break-words text-left">Купить/продать или оплатить Telegram звëздами как за RUB</span>
                     </button>
                 </div>
             </section>
 
             <!-- Secondary Action Buttons (Cards) -->
-            <section class="w-full bg-white/[0.03] backdrop-blur-2xl p-4 sm:p-5 rounded-[2.5rem] border border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.5)] flex flex-col sm:flex-row gap-2.5 relative overflow-hidden">
+            <section class="w-full bg-white/[0.03] backdrop-blur-2xl p-3 sm:p-4 rounded-[2.5rem] border border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.5)] flex flex-col sm:flex-row gap-2 relative overflow-hidden">
                 <div class="absolute inset-0 bg-gradient-to-t from-white/5 to-transparent pointer-events-none z-0"></div>
                 
-                <a href="https://t.me/karta_robot" target="_blank" rel="noopener noreferrer" class="twa-link w-full sm:flex-[1.2] bg-white/5 hover:bg-white/10 text-white hover:text-cyan-300 py-3.5 px-4 rounded-2xl font-bold text-xs sm:text-sm transition-all border border-white/10 hover:border-cyan-500/30 shadow-[0_0_15px_rgba(255,255,255,0.05)] hover:shadow-[0_0_20px_rgba(6,182,212,0.2)] flex items-center justify-center gap-2 hover:-translate-y-0.5 active:scale-95 z-10 text-center">
-                    <span class="text-xl drop-shadow-md">💳</span>
-                    <span class="tracking-wide">Выпустить пластиковую/NFT карту</span>
+                <a href="https://t.me/karta_robot" target="_blank" rel="noopener noreferrer" class="twa-link w-full sm:flex-[1.2] bg-white/5 hover:bg-white/10 text-white hover:text-cyan-300 py-2.5 px-3.5 rounded-xl font-bold text-[11px] sm:text-xs transition-all border border-white/10 hover:border-cyan-500/30 shadow-[0_0_15px_rgba(255,255,255,0.05)] hover:shadow-[0_0_20px_rgba(6,182,212,0.2)] flex items-center justify-center gap-2 hover:-translate-y-0.5 active:scale-95 z-10 text-center">
+                    <span class="text-base drop-shadow-md">💳</span>
+                    <span class="tracking-wide">Выпустить карту</span>
                 </a>
                 
-                <button id="btn-activate-card" class="w-full sm:flex-[0.8] bg-green-500/10 hover:bg-green-500/20 text-green-400 hover:text-green-300 py-3.5 px-4 rounded-2xl font-bold text-xs sm:text-sm transition-all border border-green-500/30 hover:border-green-500/50 shadow-[0_0_15px_rgba(74,222,128,0.1)] flex items-center justify-center gap-2 hover:-translate-y-0.5 active:scale-95 z-10 text-center">
-                    <span class="text-xl drop-shadow-md">✅</span>
+                <button id="btn-activate-card" class="w-full sm:flex-[0.8] bg-green-500/10 hover:bg-green-500/20 text-green-400 hover:text-green-300 py-2.5 px-3.5 rounded-xl font-bold text-[11px] sm:text-xs transition-all border border-green-500/30 hover:border-green-500/50 shadow-[0_0_15px_rgba(74,222,128,0.1)] flex items-center justify-center gap-2 hover:-translate-y-0.5 active:scale-95 z-10 text-center">
+                    <span class="text-base drop-shadow-md">✅</span>
                     <span class="tracking-wide">Активировать карту</span>
                 </button>
             </section>
